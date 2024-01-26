@@ -1,6 +1,7 @@
 package com.yatensoft.dcbot.util;
 
 import com.yatensoft.dcbot.config.DiscordBotConfig;
+import com.yatensoft.dcbot.constant.MessageConstant;
 import net.dv8tion.jda.api.entities.Message;
 
 public class BotUtils {
@@ -13,5 +14,13 @@ public class BotUtils {
         return message.getMentions().getMembers().stream()
                 .anyMatch(member -> member.getId()
                         .equals(DiscordBotConfig.getBotJDA().getSelfUser().getId()));
+    }
+
+    /**
+     * Get bot as a mention in raw message context
+     * @return bot as mention
+     */
+    public static String getBotAsMentionInRawFormat() {
+        return String.format(MessageConstant.MENTION_RAW_FORMAT_TEMPLATE, DiscordBotConfig.getBotJDA().getSelfUser().getId());
     }
 }

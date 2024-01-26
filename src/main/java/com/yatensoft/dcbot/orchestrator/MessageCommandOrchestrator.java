@@ -31,7 +31,7 @@ public class MessageCommandOrchestrator {
      * @param event message event
      * @throws IOException
      */
-    public void orchestrateCommand(final String command, final MessageReceivedEvent event) throws IOException {
+    public void delegateCommand(final String command, final MessageReceivedEvent event) throws IOException {
         /* Pass command to the correct service */
         if (command.contains(OrchestratorConstant.FAB_COMMAND_PREFIX)) {
             fabCommandService.handleCommand(command, event);
