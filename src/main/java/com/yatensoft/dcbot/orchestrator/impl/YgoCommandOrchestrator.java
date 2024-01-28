@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class YgoCommandOrchestrator implements CommandOrchestrator {
     @Override
-    public void delegateCommand(String command, MessageReceivedEvent event) throws IOException {
+    public void delegateCommand(final String command, final MessageReceivedEvent event) throws IOException {
         /* In case of unknown command send message to the channel where request came from */
         event.getChannel()
                 .sendMessage(event.getAuthor().getAsMention() + " " + MessageConstant.UNKNOWN_COMMAND)

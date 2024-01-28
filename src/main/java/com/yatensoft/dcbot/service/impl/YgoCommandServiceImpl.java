@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class YgoCommandServiceImpl implements YgoCommandService {
     /** See {@link YgoCommandService#handleCommand(MessageReceivedEvent)} */
     @Override
-    public void handleCommand(MessageReceivedEvent event) throws IOException {
+    public void handleCommand(final MessageReceivedEvent event) throws IOException {
         System.out.println("NOT IMPLEMENTED");
     }
 }

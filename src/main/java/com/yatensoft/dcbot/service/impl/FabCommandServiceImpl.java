@@ -24,7 +24,7 @@ public class FabCommandServiceImpl implements FabCommandService {
 
     /** See {@link FabCommandService#getLatestArticleURL(MessageReceivedEvent)} */
     @Override
-    public void getLatestArticleURL(MessageReceivedEvent event) throws IOException {
+    public void getLatestArticleURL(final MessageReceivedEvent event) throws IOException {
         /* Get the latest article URL */
         final String fetchedUrl = websiteParser.getLatestArticleUrl();
         /* Send a message to the news channel */
