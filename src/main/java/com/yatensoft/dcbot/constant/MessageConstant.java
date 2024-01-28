@@ -7,6 +7,7 @@ public class MessageConstant {
 
     public static final String THREE_PARTS_MESSAGE_TEMPLATE = "%s %s %s";
     public static final String MENTION_RAW_FORMAT_TEMPLATE = "<@%s>";
+    /** Other */
     public static final String REGEX_TO_SPLIT_MESSAGE_ON_WHITESPACE_CHARACTERS = "\\s+";
     /** Bot Messages */
     public static final String NO_NEW_ARTICLE_WAS_ADDED =

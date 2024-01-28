@@ -12,5 +12,5 @@ public interface WebsiteParser {
      * @return url of the last article
      * @throws IOException if unable to parse website
      */
-    public String getLatestArticleUrl() throws IOException;
+    String getLatestArticleUrl() throws IOException;
 }

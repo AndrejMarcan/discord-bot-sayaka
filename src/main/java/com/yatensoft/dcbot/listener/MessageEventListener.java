@@ -1,12 +1,10 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.listener;
 
-import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.orchestrator.MessageCommandOrchestrator;
-import java.io.IOException;
-
 import com.yatensoft.dcbot.util.BotUtils;
+import java.io.IOException;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -33,6 +31,7 @@ public class MessageEventListener extends ListenerAdapter {
         if (event.getAuthor().isBot()) return;
         /* Extract command from message where Sayaka(BOT -> @Sayaka) is mentioned */
         final String command = extractCommandFromMessageForSayaka(event.getMessage());
+        /* Return if message is not for Sayaka or command format is invalid */
         if (StringUtil.isBlank(command)) {
             return;
         }
@@ -46,19 +45,18 @@ public class MessageEventListener extends ListenerAdapter {
         }
     }
 
+    /** Extract command from message where Sayaka(BOT -> @Sayaka) was mentioned. */
     private String extractCommandFromMessageForSayaka(final Message message) {
-        String command;
-        if (BotUtils.isSayakaMentioned(message)){
-            command = parseMessageContent(message);
-            System.out.println(command);
-        } else {
-            return null;
-        }
-        return command;
+        if (message == null) return null;
+        final String command = BotUtils.isSayakaMentioned(message) ? parseMessageContent(message) : null;
+        return BotUtils.hasValidCommandFormat(command) ? command : null;
     }
 
-    /** Parse message raw content - split on bot mention and extract*/
+    /** Parse message raw content - split on bot mention get next word. */
     private String parseMessageContent(final Message message) {
-        return message.getContentRaw().split(BotUtils.getBotAsMentionInRawFormat())[1].trim().split(MessageConstant.REGEX_TO_SPLIT_MESSAGE_ON_WHITESPACE_CHARACTERS)[0];
+        return message.getContentRaw()
+                .split(BotUtils.getSayakaAsMentionInRawFormat())[1]
+                .trim()
+                .split(MessageConstant.REGEX_TO_SPLIT_MESSAGE_ON_WHITESPACE_CHARACTERS)[0];
     }
 }
