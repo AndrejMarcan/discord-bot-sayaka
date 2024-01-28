@@ -20,6 +20,7 @@ public class FabCommandOrchestrator implements CommandOrchestrator {
         this.fabCommandService = fabCommandService;
     }
 
+    /** See {@link CommandOrchestrator#delegateCommand(String, MessageReceivedEvent)} */
     @Override
     public void delegateCommand(final String command, final MessageReceivedEvent event) throws IOException {
         if (BotCommandConstant.FAB_COMMAND_GET_LATEST_ARTICLE_URL.equalsIgnoreCase(command)) {

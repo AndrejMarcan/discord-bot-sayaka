@@ -12,5 +12,8 @@ public class BotCommandConstant {
     /** Flesh And Blood */
     public static final String FAB_COMMAND_GET_LATEST_ARTICLE_URL = "--fabLatestArticle";
 
+    /** Yu-Gi-Oh! */
+    public static final String YGO_COMMAND_GET_LATEST_BANLIST_URL = "--ygoBanlist";
+
     public BotCommandConstant() {}
 }
