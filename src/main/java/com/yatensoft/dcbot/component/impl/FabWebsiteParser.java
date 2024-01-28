@@ -1,8 +1,8 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.service.impl.fab;
+package com.yatensoft.dcbot.component.impl;
 
+import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
 import com.yatensoft.dcbot.constant.WebsiteParserConstant;
-import com.yatensoft.dcbot.service.skeleton.WebsiteParser;
 import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

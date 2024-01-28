@@ -9,5 +9,8 @@ public class BotCommandConstant {
 
     public static final String YGO_COMMAND_PREFIX = "--ygo";
 
+    /** Flesh And Blood */
+    public static final String FAB_COMMAND_GET_LATEST_ARTICLE_URL = "--fabLatestArticle";
+
     public BotCommandConstant() {}
 }

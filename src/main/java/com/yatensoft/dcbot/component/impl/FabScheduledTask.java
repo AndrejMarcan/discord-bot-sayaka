@@ -1,11 +1,11 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.service.impl.fab;
+package com.yatensoft.dcbot.component.impl;
 
+import com.yatensoft.dcbot.component.skeleton.ScheduledTask;
+import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.service.skeleton.ScheduledTask;
-import com.yatensoft.dcbot.service.skeleton.WebsiteParser;
 import java.io.IOException;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FabScheduledTask implements ScheduledTask {
-    final String lastArticle = "https://fabtcg.com/articles/calling-queenstown-recap/damaged";
+    final String lastArticle = "https://fabtcg.com/articles/calling-queenstown-recap/";
     private final WebsiteParser websiteParser;
 
-    public FabScheduledTask(@Autowired FabWebsiteParser websiteParser) {
+    public FabScheduledTask(@Autowired final FabWebsiteParser websiteParser) {
         super();
         this.websiteParser = websiteParser;
     }
