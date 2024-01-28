@@ -21,7 +21,7 @@ public class FabScheduledTask implements ScheduledTask {
     final String lastArticle = "https://fabtcg.com/articles/calling-queenstown-recap/";
     private final WebsiteParser websiteParser;
 
-    public FabScheduledTask(@Autowired FabWebsiteParser websiteParser) {
+    public FabScheduledTask(@Autowired final FabWebsiteParser websiteParser) {
         super();
         this.websiteParser = websiteParser;
     }
