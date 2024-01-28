@@ -1,8 +1,9 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.service.impl.fab;
+package com.yatensoft.dcbot.service.impl;
 
+import com.yatensoft.dcbot.component.impl.FabWebsiteParser;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.service.skeleton.CommandService;
+import com.yatensoft.dcbot.service.skeleton.FabCommandService;
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
  * related to Flesh And Blood channels.
  */
 @Service
-public class FabCommandServiceImpl implements CommandService {
+public class FabCommandServiceImpl implements FabCommandService {
     private final FabWebsiteParser websiteParser;
 
     public FabCommandServiceImpl(@Autowired final FabWebsiteParser websiteParser) {
@@ -21,10 +22,9 @@ public class FabCommandServiceImpl implements CommandService {
         this.websiteParser = websiteParser;
     }
 
-    // TODO ADD HANDLING TO PARTICULAR COMMAND (private methods)
-    /** See {@link CommandService#handleCommand(String, MessageReceivedEvent)} */
+    /** See {@link FabCommandService#getLatestArticleURL(MessageReceivedEvent)} */
     @Override
-    public void handleCommand(final String command, final MessageReceivedEvent event) throws IOException {
+    public void getLatestArticleURL(MessageReceivedEvent event) throws IOException {
         /* Get the latest article URL */
         final String fetchedUrl = websiteParser.getLatestArticleUrl();
         /* Send a message to the news channel */
