@@ -30,7 +30,7 @@ public class FabCommandServiceImpl implements FabCommandService {
         /* Send a message to the news channel */
         event.getChannel()
                 .sendMessage(String.format(
-                        MessageConstant.TWO_PARTS_MESSAGE_TEMPLATE, MessageConstant.NEWEST_ARTICLE_URL, fetchedUrl))
+                        MessageConstant.TWO_PARTS_MESSAGE_TEMPLATE, MessageConstant.FAB_LATEST_ARTICLE_URL, fetchedUrl))
                 .queue();
     }
 }

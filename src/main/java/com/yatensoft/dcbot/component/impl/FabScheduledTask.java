@@ -10,13 +10,13 @@ import java.io.IOException;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation class of ScheduledTask interface responsible for handling of scheduled tasks
  * related to Flesh And Blood channels.
  */
-@Service
+@Component
 public class FabScheduledTask implements ScheduledTask {
     final String lastArticle = "https://fabtcg.com/articles/calling-queenstown-recap/";
     private final WebsiteParser websiteParser;

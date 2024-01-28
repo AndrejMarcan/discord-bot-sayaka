@@ -9,13 +9,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation class of WebsiteParser interface responsible for handling of parsing and processing operations
  * of fabtcg website related to Flesh And Blood channels.
  */
-@Service
+@Component
 public class FabWebsiteParser implements WebsiteParser {
     @Value("${fabtcg.url.articles}")
     private String FABTCG_ARTICLES_URL;
@@ -37,5 +37,11 @@ public class FabWebsiteParser implements WebsiteParser {
         } catch (IOException ex) {
             throw ex;
         }
+    }
+
+    /** See {@link WebsiteParser#getLatestBanListUrl()} */
+    @Override
+    public String getLatestBanListUrl() throws IOException {
+        return null;
     }
 }
