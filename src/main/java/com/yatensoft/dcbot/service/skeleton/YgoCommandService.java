@@ -9,10 +9,10 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
  */
 public interface YgoCommandService {
     /**
-     * Handle the command message.
+     * Get the latest ban-list.
      *
      * @param event message event
      * @throws IOException
      */
-    void handleCommand(MessageReceivedEvent event) throws IOException;
+    void getLatestBanListUrl(MessageReceivedEvent event) throws IOException;
 }

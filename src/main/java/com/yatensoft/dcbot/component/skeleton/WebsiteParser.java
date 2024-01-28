@@ -13,4 +13,11 @@ public interface WebsiteParser {
      * @throws IOException if unable to parse website
      */
     String getLatestArticleUrl() throws IOException;
+
+    /**
+     * Get latest ban-list URL
+     * @return url of the last article
+     * @throws IOException if unable to parse website
+     */
+    String getLatestBanListUrl() throws IOException;
 }
