@@ -1,8 +1,8 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.orchestrator;
 
+import com.yatensoft.dcbot.constant.BotCommandConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.constant.OrchestratorConstant;
 import com.yatensoft.dcbot.service.impl.fab.FabCommandServiceImpl;
 import com.yatensoft.dcbot.service.impl.ygo.YgoCommandServiceImpl;
 import com.yatensoft.dcbot.service.skeleton.CommandService;
@@ -31,10 +31,14 @@ public class MessageCommandOrchestrator {
      * @param event message event
      * @throws IOException
      */
-    public void orchestrateCommand(final String command, final MessageReceivedEvent event) throws IOException {
+    public void delegateCommand(final String command, final MessageReceivedEvent event) throws IOException {
         /* Pass command to the correct service */
-        if (command.contains(OrchestratorConstant.FAB_COMMAND_PREFIX)) {
+        if (command.contains(BotCommandConstant.FAB_COMMAND_PREFIX)) {
             fabCommandService.handleCommand(command, event);
+            return;
+        }
+        if (command.contains(BotCommandConstant.YGO_COMMAND_PREFIX)) {
+            ygoCommandService.handleCommand(command, event);
             return;
         }
 

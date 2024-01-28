@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FabScheduledTask implements ScheduledTask {
-    final String lastArticle = "https://fabtcg.com/articles/calling-queenstown-recap/";
+    final String lastArticle = "https://fabtcg.com/articles/calling-queenstown-recap/damaged";
     private final WebsiteParser websiteParser;
 
     public FabScheduledTask(@Autowired FabWebsiteParser websiteParser) {
