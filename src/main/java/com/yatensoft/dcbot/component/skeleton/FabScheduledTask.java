@@ -4,14 +4,14 @@ package com.yatensoft.dcbot.component.skeleton;
 import java.io.IOException;
 
 /**
- * Class responsible for handling of scheduled operations.
+ * Class responsible for handling of scheduled operations related to Flesh And Blood channels.
  */
-public interface ScheduledTask {
+public interface FabScheduledTask {
     /**
      * Checks if there was added new article to website and send a message to discord channel in case of
-     * positive scenario
+     * positive scenario.
      *
      * @throws IOException if parsing fails
      */
-    void checkFabtcgArticles() throws IOException;
+    void checkLatestArticles() throws IOException;
 }
