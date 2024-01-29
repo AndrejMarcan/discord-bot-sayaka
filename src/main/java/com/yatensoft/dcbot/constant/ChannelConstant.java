@@ -5,5 +5,7 @@ public class ChannelConstant {
     /** KitchenTableTCGs Channel IDs */
     public static final long FAB_CHANNEL_NEWS = 1198632133695111190L;
 
+    public static final long YGO_CHANNEL_NEWS = 1198632074668679188L;
+
     public ChannelConstant() {}
 }
