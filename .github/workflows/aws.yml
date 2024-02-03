@@ -17,7 +17,7 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
       - name: Build with Gradle
-          run: ./gradlew clean build
+        run: ./gradlew clean build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
