@@ -41,7 +41,7 @@ jobs:
         run: |
           # Build a docker container and push to ECR so it can be deployed to ECS
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-          --build-arg DISCORD_BOT_TOKEN_ARG=${{ secrets.DISCORD_BOT_TOKEN_ARG }} \
+          --build-arg DISCORD_BOT_TOKEN_ARG=${{ secrets.DISCORD_BOT_TOKEN_ARG }} .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
