@@ -1,10 +1,10 @@
 on:
-  push
+  workflow_dispatch
 
-name: Deploy to Amazon ECS
+name: Build and deploy
 
 jobs:
-  deploy:
+  build-container:
     name: Deploy
     runs-on: ubuntu-latest
 
@@ -20,43 +20,10 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew clean build
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Publish to Docker Hub
+        uses: docker/build-push-action@v1
         with:
-          aws-access-key-id: ${{ secrets.SAYAKA_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.SAYAKA_AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: sayaka-discord-bot
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          # Build a docker container and push to ECR so it can be deployed to ECS
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-          --build-arg DISCORD_BOT_TOKEN_ARG=${{ secrets.DISCORD_BOT_TOKEN_ARG }} .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
-      - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          container-name: sayaka-discord-bot
-          image: ${{ steps.build-image.outputs.image }}
-
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: sayaka-discord-bot
-          cluster: arn:aws:ecs:eu-central-1:423401489846:cluster/sayaka-discord-bot
-          wait-for-service-stability: true
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_KEY }}
+          repository: ${{ secrets.DOCKER_HUB_REPOSITORY }}
+          tags: latest, ${{ github.run_number }}
