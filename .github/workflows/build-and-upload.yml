@@ -1,0 +1,39 @@
+name: Build And Upload
+description: Builds an application and a docker image. Then uploads the docker image to DockerHub.
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+jobs:
+  build:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew clean build
+      - name: Docker login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_KEY }}
+          IMAGE_TAG: ${{ github.sha }}
+        run : docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" docker.io
+      - name: Build the Docker image
+        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:${{ github.sha }}
+      - name: Publish dockerimage to docker hub
+        run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:${{ github.sha }}
+      - name: Build Docker image with latest tag
+        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest
+      - name: Publish dockerimage to docker hub
+        run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest
