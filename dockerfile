@@ -1,9 +1,5 @@
 FROM openjdk:17-alpine
 
-ARG DISCORD_BOT_TOKEN_ARG
-
-ENV DISCORD_BOT_TOKEN=$DISCORD_BOT_TOKEN_ARG
-
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
 
