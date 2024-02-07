@@ -37,3 +37,5 @@ out/
 
 /.gitattributes
 /gradle.properties
+
+notes.txt
