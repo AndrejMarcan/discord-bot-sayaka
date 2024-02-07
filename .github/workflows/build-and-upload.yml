@@ -1,5 +1,4 @@
 name: Build And Upload
-description: Builds an application and a docker image. Then uploads the docker image to DockerHub.
 
 on:
   pull_request:

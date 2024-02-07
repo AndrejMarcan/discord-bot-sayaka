@@ -1,5 +1,4 @@
 name: Build
-description: Builds an application. Serves as verification that application is buildable.
 
 on:
   push
