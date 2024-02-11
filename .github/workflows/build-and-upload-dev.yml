@@ -32,11 +32,15 @@ jobs:
         run : docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" docker.io
       - name: Build the Docker image
         run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:${{ github.sha }}
-      - name: Publish dockerimage to docker hub
+      - name: Publish Docker image to docker hub
         run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:${{ github.sha }}
+
+      - name: Remove existing Docker image with latest tag
+        run: docker rmi -f ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest || true
+
       - name: Build Docker image with latest tag
         run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest
-      - name: Publish dockerimage to docker hub
+      - name: Publish Docker image to docker hub
         run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest
 
       - name: Trigger deployment of new image
