@@ -3,12 +3,12 @@ package com.yatensoft.dcbot.listener;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
- * Component responsible for slash command events.
+ * Service responsible for slash command events.
  */
-@Component
+@Service
 public class SlashCommandEventListener extends ListenerAdapter {
 
     /** Handle received message events. */

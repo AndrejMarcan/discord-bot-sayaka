@@ -9,7 +9,6 @@ import com.yatensoft.dcbot.constant.MessageConstant;
 import java.io.IOException;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,7 +27,7 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
 
     /** See {@link FabScheduledTask#checkLatestArticles()} */
     @Override
-    @Scheduled(cron = "0 0 */4 * * *")
+    //    @Scheduled(cron = "0 0 */4 * * *") TODO enable after DB is implemented
     public void checkLatestArticles() throws IOException {
         /* Get the latest article URL */
         final String fetchedUrl = websiteParser.getLatestArticleUrl();

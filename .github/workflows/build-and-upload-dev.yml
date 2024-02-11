@@ -3,7 +3,7 @@ name: Build And Upload
 on:
   pull_request:
     branches:
-      - main
+      - dev
     types: [closed]
 
 jobs:
@@ -26,19 +26,19 @@ jobs:
 
       - name: Docker login
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_KEY }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_DEV }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_KEY_DEV }}
           IMAGE_TAG: ${{ github.sha }}
         run : docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" docker.io
       - name: Build the Docker image
-        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:${{ github.sha }}
+        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME_DEV}}/${{secrets.DOCKER_HUB_REPOSITORY_DEV}}:${{ github.sha }}
       - name: Publish Docker image to docker hub
-        run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:${{ github.sha }}
+        run: docker push ${{secrets.DOCKER_HUB_USERNAME_DEV}}/${{secrets.DOCKER_HUB_REPOSITORY_DEV}}:${{ github.sha }}
 
       - name: Build Docker image with latest tag
-        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest
+        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME_DEV}}/${{secrets.DOCKER_HUB_REPOSITORY_DEV}}:latest
       - name: Publish Docker image to docker hub
-        run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest
+        run: docker push ${{secrets.DOCKER_HUB_USERNAME_DEV}}/${{secrets.DOCKER_HUB_REPOSITORY_DEV}}:latest
 
       - name: Trigger deployment of new image
         run: |
@@ -47,7 +47,7 @@ jobs:
                      --header 'Content-Type: application/json' \
                      --header 'Authorization: Bearer ${{secrets.DIGITAL_OCEAN_API_TOKEN}}' \
                      --data '{"force_build": true}' \
-                     --url https://api.digitalocean.com/v2/apps/${{secrets.DIGITAL_OCEAN_APP_ID}}/deployments)
+                     --url https://api.digitalocean.com/v2/apps/${{secrets.DIGITAL_OCEAN_APP_ID_DEV}}/deployments)
           if [ "$response" -eq 200 ]; then
             echo "Deployment triggered successfully."
             exit 0

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.yatensoft'
-version = '0.0.1'
+version = '0.0.2'
 
 java {
 	sourceCompatibility = '17'
@@ -19,6 +19,7 @@ repositories {
 dependencies {
 	// Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	// Discord api
 	implementation 'net.dv8tion:JDA:5.0.0-beta.20'
 	// Website parsing
