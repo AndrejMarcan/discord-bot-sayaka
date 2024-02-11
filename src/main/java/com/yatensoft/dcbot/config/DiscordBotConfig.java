@@ -2,6 +2,7 @@
 package com.yatensoft.dcbot.config;
 
 import com.yatensoft.dcbot.listener.MessageEventListener;
+import com.yatensoft.dcbot.listener.OnReadyEventListener;
 import com.yatensoft.dcbot.listener.SlashCommandEventListener;
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
@@ -21,21 +22,25 @@ public class DiscordBotConfig {
 
     private final MessageEventListener messageEventListener;
     private final SlashCommandEventListener slashCommandEventListener;
+    private final OnReadyEventListener onReadyEventListener;
+
     private static JDA bot;
 
     DiscordBotConfig(
             @Autowired final MessageEventListener messageEventListener,
-            @Autowired final SlashCommandEventListener slashCommandEventListener) {
+            @Autowired final SlashCommandEventListener slashCommandEventListener,
+            @Autowired final OnReadyEventListener onReadyEventListener) {
         super();
         this.messageEventListener = messageEventListener;
         this.slashCommandEventListener = slashCommandEventListener;
+        this.onReadyEventListener = onReadyEventListener;
     }
 
     /** JDA initialization. */
     @PostConstruct
-    public void init() {
+    private void init() {
         this.bot = JDABuilder.createDefault(BOT_TOKEN)
-                .addEventListeners(messageEventListener, slashCommandEventListener)
+                .addEventListeners(messageEventListener, slashCommandEventListener, onReadyEventListener)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
     }

@@ -9,7 +9,6 @@ import com.yatensoft.dcbot.constant.MessageConstant;
 import java.io.IOException;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,7 +27,7 @@ public class YgoScheduledTaskImpl implements YgoScheduledTask {
 
     /** See {@link YgoScheduledTask#checkBanlist()} */
     @Override
-    @Scheduled(cron = "0 0 */4 * * *")
+    //    @Scheduled(cron = "0 0 */4 * * *") TODO enable after DB is implemented
     public void checkBanlist() throws IOException {
         /* Get the latest banlist URL */
         final String fetchedUrl = websiteParser.getLatestArticleUrl();
