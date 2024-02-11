@@ -10,12 +10,12 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jsoup.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
- * Component responsible for handling message events.
+ * Service responsible for handling message events.
  */
-@Component
+@Service
 public class MessageEventListener extends ListenerAdapter {
     private final MessageCommandOrchestrator messageCommandOrchestrator;
 
