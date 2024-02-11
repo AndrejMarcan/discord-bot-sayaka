@@ -26,22 +26,19 @@ jobs:
 
       - name: Docker login
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_KEY }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_DEV }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_KEY_DEV }}
           IMAGE_TAG: ${{ github.sha }}
         run : docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" docker.io
       - name: Build the Docker image
-        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:${{ github.sha }}
+        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME_DEV}}/${{secrets.DOCKER_HUB_REPOSITORY_DEV}}:${{ github.sha }}
       - name: Publish Docker image to docker hub
-        run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:${{ github.sha }}
-
-      - name: Remove existing Docker image with latest tag
-        run: docker rmi -f ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest || true
+        run: docker push ${{secrets.DOCKER_HUB_USERNAME_DEV}}/${{secrets.DOCKER_HUB_REPOSITORY_DEV}}:${{ github.sha }}
 
       - name: Build Docker image with latest tag
-        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest
+        run: docker build . --file dockerfile --tag ${{secrets.DOCKER_HUB_USERNAME_DEV}}/${{secrets.DOCKER_HUB_REPOSITORY_DEV}}:latest
       - name: Publish Docker image to docker hub
-        run: docker push ${{secrets.DOCKER_HUB_USERNAME}}/${{secrets.DOCKER_HUB_REPOSITORY}}:latest
+        run: docker push ${{secrets.DOCKER_HUB_USERNAME_DEV}}/${{secrets.DOCKER_HUB_REPOSITORY_DEV}}:latest
 
       - name: Trigger deployment of new image
         run: |
