@@ -23,13 +23,13 @@ public class UrlArchiveServiceImpl implements UrlArchiveService {
 
     /** See {@link UrlArchiveService#createUrlArchiveRecord(UrlArchive)} */
     @Override
-    public void createUrlArchiveRecord(UrlArchive record) {
+    public void createUrlArchiveRecord(final UrlArchive record) {
         urlArchiveRepository.save(record);
     }
 
     /** See {@link UrlArchiveService#checkIfUrlArchiveRecordExists(String, TopicEnum, ArticleTypeEnum)} */
     @Override
-    public boolean checkIfUrlArchiveRecordExists(String url, TopicEnum topic, ArticleTypeEnum type) {
+    public boolean checkIfUrlArchiveRecordExists(final String url, final TopicEnum topic, final ArticleTypeEnum type) {
         return urlArchiveRepository.existsByUrlAndTopicAndType(url, topic.getShortName(), type.getValue());
     }
 }
