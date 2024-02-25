@@ -6,9 +6,16 @@ import com.yatensoft.dcbot.component.skeleton.YgoScheduledTask;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
+import com.yatensoft.dcbot.enumeration.ArticleTypeEnum;
+import com.yatensoft.dcbot.enumeration.TopicEnum;
+import com.yatensoft.dcbot.persitence.entity.UrlArchive;
+import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.Instant;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,22 +24,26 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class YgoScheduledTaskImpl implements YgoScheduledTask {
-    final String latestBanlistUrl = "https://www.yugioh-card.com/en/limited/list_2024-01-01/";
     private final WebsiteParser websiteParser;
+    private final UrlArchiveService urlArchiveService;
 
-    public YgoScheduledTaskImpl(@Autowired final YgoWebsiteParser websiteParser) {
+    public YgoScheduledTaskImpl(
+            @Autowired final YgoWebsiteParser websiteParser, @Autowired final UrlArchiveService urlArchiveService) {
         super();
         this.websiteParser = websiteParser;
+        this.urlArchiveService = urlArchiveService;
     }
 
     /** See {@link YgoScheduledTask#checkBanlist()} */
     @Override
-    //    @Scheduled(cron = "0 0 */4 * * *") TODO enable after DB is implemented
+    @Scheduled(cron = "0 0 */4 * * *")
     public void checkBanlist() throws IOException {
         /* Get the latest banlist URL */
-        final String fetchedUrl = websiteParser.getLatestArticleUrl();
+        final String fetchedUrl = websiteParser.getLatestBanListUrl();
         /* Check if new banlist URL was fetched */
-        if (!latestBanlistUrl.equalsIgnoreCase(fetchedUrl)) {
+        if (!urlArchiveService.checkIfUrlArchiveRecordExists(fetchedUrl, TopicEnum.YUGIOH, ArticleTypeEnum.BANLIST)) {
+            /* Create new record in DB */
+            urlArchiveService.createUrlArchiveRecord(createUrlArchiveRequest(fetchedUrl));
             /* Get news discord channel by ID */
             final TextChannel ygoNews =
                     DiscordBotConfig.getBotJDA().getTextChannelById(ChannelConstant.YGO_CHANNEL_NEWS);
@@ -43,5 +54,15 @@ public class YgoScheduledTaskImpl implements YgoScheduledTask {
                             fetchedUrl))
                     .queue();
         }
+    }
+
+    /** Create UrlArchive object for Yu-Gi-Oh! banlist article */
+    private UrlArchive createUrlArchiveRequest(final String url) {
+        UrlArchive request = new UrlArchive();
+        request.setUrl(url);
+        request.setTopic(TopicEnum.YUGIOH.getShortName());
+        request.setType(ArticleTypeEnum.BANLIST.getValue());
+        request.setDateOfCreation(Date.from(Instant.now()));
+        return request;
     }
 }

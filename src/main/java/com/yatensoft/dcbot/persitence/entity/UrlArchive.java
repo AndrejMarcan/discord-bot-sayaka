@@ -1,7 +1,7 @@
+/** By YamiY Yaten */
 package com.yatensoft.dcbot.persitence.entity;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,6 +18,9 @@ public class UrlArchive {
 
     @Column(name = "topic", length = 32)
     private String topic;
+
+    @Column(name = "type", length = 32)
+    private String type;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "date_of_creation", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -45,6 +48,14 @@ public class UrlArchive {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Date getDateOfCreation() {

@@ -6,9 +6,16 @@ import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
+import com.yatensoft.dcbot.enumeration.ArticleTypeEnum;
+import com.yatensoft.dcbot.enumeration.TopicEnum;
+import com.yatensoft.dcbot.persitence.entity.UrlArchive;
+import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.Instant;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,22 +24,27 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FabScheduledTaskImpl implements FabScheduledTask {
-    final String lastArticle = "https://fabtcg.com/articles/calling-queenstown-recap/";
     private final WebsiteParser websiteParser;
+    private final UrlArchiveService urlArchiveService;
 
-    public FabScheduledTaskImpl(@Autowired final FabWebsiteParser websiteParser) {
+    public FabScheduledTaskImpl(
+            @Autowired final FabWebsiteParser websiteParser, @Autowired final UrlArchiveService urlArchiveService) {
         super();
         this.websiteParser = websiteParser;
+        this.urlArchiveService = urlArchiveService;
     }
 
     /** See {@link FabScheduledTask#checkLatestArticles()} */
     @Override
-    //    @Scheduled(cron = "0 0 */4 * * *") TODO enable after DB is implemented
+    @Scheduled(cron = "0 0 */4 * * *")
     public void checkLatestArticles() throws IOException {
         /* Get the latest article URL */
         final String fetchedUrl = websiteParser.getLatestArticleUrl();
         /* Check if new article URL was fetched */
-        if (!lastArticle.equalsIgnoreCase(fetchedUrl)) {
+        if (!urlArchiveService.checkIfUrlArchiveRecordExists(
+                fetchedUrl, TopicEnum.FLESH_AND_BLOOD, ArticleTypeEnum.ARTICLE)) {
+            /* Create new record in DB */
+            urlArchiveService.createUrlArchiveRecord(createUrlArchiveRequest(fetchedUrl));
             /* Get news discord channel by ID */
             final TextChannel fabNews =
                     DiscordBotConfig.getBotJDA().getTextChannelById(ChannelConstant.FAB_CHANNEL_NEWS);
@@ -43,5 +55,14 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
                             fetchedUrl))
                     .queue();
         }
+    }
+    /** Create UrlArchive object for Flesh And Blood latest article */
+    private UrlArchive createUrlArchiveRequest(final String url) {
+        UrlArchive request = new UrlArchive();
+        request.setUrl(url);
+        request.setTopic(TopicEnum.FLESH_AND_BLOOD.getShortName());
+        request.setType(ArticleTypeEnum.ARTICLE.getValue());
+        request.setDateOfCreation(Date.from(Instant.now()));
+        return request;
     }
 }
