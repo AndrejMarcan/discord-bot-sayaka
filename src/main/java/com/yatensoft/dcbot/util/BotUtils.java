@@ -47,6 +47,11 @@ public class BotUtils {
         return commandToValidate.startsWith(BotCommandConstant.COMMAND_PREFIX);
     }
 
+    /**
+     * Collect all URLs from the message
+     * @param message message received
+     * @return list of URLs
+     */
     public static List<String> collectUrlsFromText(final Message message) {
         if (message == null) {
             return new ArrayList<>();
