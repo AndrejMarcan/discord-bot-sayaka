@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Implementation of MoviesAndSeriesChannelService interface responsible for handling operations in
- * #movies-and-series channel
+ * #movies-and-series channel.
  */
 @Service
 public class MoviesAndSeriesChannelServiceImpl implements MoviesAndSeriesChannelService {
@@ -48,12 +48,12 @@ public class MoviesAndSeriesChannelServiceImpl implements MoviesAndSeriesChannel
         }
     }
 
-    /** Prepare list of UrlArchive objects for recommended movie or series */
+    /** Prepare list of UrlArchive objects for recommended movie or series. */
     private List<UrlArchive> getUrlArchiveRecordsToSave(final List<String> urls) {
         return urls.stream().map(url -> createUrlArchiveRecordRequest(url)).toList();
     }
 
-    /** Create UrlArchive object for recommended movie or series */
+    /** Create UrlArchive object for recommended movie or series. */
     private UrlArchive createUrlArchiveRecordRequest(final String url) {
         UrlArchive urlArchive = new UrlArchive();
         urlArchive.setUrl(url);
@@ -63,7 +63,7 @@ public class MoviesAndSeriesChannelServiceImpl implements MoviesAndSeriesChannel
         return urlArchive;
     }
 
-    /** Build a message for recommended movies and series channel */
+    /** Build a message for recommended movies and series channel. */
     private String createMessage(final List<UrlArchive> records, final MessageReceivedEvent messageEvent) {
         final List<String> urls = records.stream().map(record -> record.getUrl()).toList();
         StringBuilder stringbuilder = new StringBuilder(String.format(MessageConstant.POST_NEW_RECOMMENDATIONS_WITH_CREDITS, messageEvent.getAuthor().getAsMention()));

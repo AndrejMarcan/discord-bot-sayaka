@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * Implementation of MessageEventOrchestrator interface responsible for delegating message event to their respective handlers.
+ */
 @Component
 public class MessageEventOrchestratorImpl implements MessageEventOrchestrator {
     private final MessageCommandOrchestrator messageCommandOrchestrator;
@@ -29,9 +32,9 @@ public class MessageEventOrchestratorImpl implements MessageEventOrchestrator {
         this.musicChannelService = musicChannelService;
     }
 
-    /** See {@link MessageEventOrchestrator#delegateEvent(MessageReceivedEvent)} */
+    /** See {@link MessageEventOrchestrator#handleEvent(MessageReceivedEvent)} */
     @Override
-    public void delegateEvent(final MessageReceivedEvent event) {
+    public void handleEvent(final MessageReceivedEvent event) {
         /* Extract command from message where Sayaka(BOT -> @Sayaka) is mentioned */
         final String command = extractCommandFromMessageForSayaka(event.getMessage());
         /* Handle command message - should be handled in all channels */

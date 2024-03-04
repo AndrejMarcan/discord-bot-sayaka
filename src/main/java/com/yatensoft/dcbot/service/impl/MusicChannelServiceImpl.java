@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Implementation of MusicChannelService interface responsible for handling operations in #music
+ * Implementation of MusicChannelService interface responsible for handling operations in #music.
  */
 @Service
 public class MusicChannelServiceImpl implements MusicChannelService {
@@ -45,12 +45,12 @@ public class MusicChannelServiceImpl implements MusicChannelService {
         }
     }
 
-    /** Prepare list of UrlArchive objects for recommended music */
+    /** Prepare list of UrlArchive objects for recommended music. */
     private List<UrlArchive> getUrlArchiveRecordsToSave(final List<String> urls) {
         return urls.stream().map(url -> createUrlArchiveRecordRequest(url)).toList();
     }
 
-    /** Create UrlArchive object for recommended music */
+    /** Create UrlArchive object for recommended music. */
     private UrlArchive createUrlArchiveRecordRequest(final String url) {
         UrlArchive urlArchive = new UrlArchive();
         urlArchive.setUrl(url);
@@ -60,7 +60,7 @@ public class MusicChannelServiceImpl implements MusicChannelService {
         return urlArchive;
     }
 
-    /** Build a message for recommended music channel */
+    /** Build a message for recommended music channel. */
     private String createMessage(final List<UrlArchive> records, final MessageReceivedEvent messageEvent) {
         final List<String> urls = records.stream().map(record -> record.getUrl()).toList();
         StringBuilder stringbuilder = new StringBuilder(String.format(MessageConstant.POST_NEW_RECOMMENDATIONS_WITH_CREDITS, messageEvent.getAuthor().getAsMention()));
