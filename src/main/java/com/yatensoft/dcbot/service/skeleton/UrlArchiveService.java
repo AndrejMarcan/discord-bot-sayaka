@@ -5,6 +5,8 @@ import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
 import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 
+import java.util.List;
+
 /**
  * Service class responsible for handling of database operations related to URLs to various sites.
  */
@@ -23,4 +25,10 @@ public interface UrlArchiveService {
      * @return record if exists
      */
     boolean checkIfUrlArchiveRecordExists(String url, TopicEnum topic, ArchiveTypeEnum type);
+
+    /**
+     * Create records of urls to be archived
+     * @param records object to be stored in DB
+     */
+    void storeUrlArchiveRecords(List<UrlArchive> records);
 }

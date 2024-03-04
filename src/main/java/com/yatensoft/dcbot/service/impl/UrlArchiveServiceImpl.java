@@ -9,6 +9,8 @@ import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Implementation of UrlArchiveService
  */
@@ -31,5 +33,11 @@ public class UrlArchiveServiceImpl implements UrlArchiveService {
     @Override
     public boolean checkIfUrlArchiveRecordExists(final String url, final TopicEnum topic, final ArchiveTypeEnum type) {
         return urlArchiveRepository.existsByUrlAndTopicAndType(url, topic.getShortName(), type.getValue());
+    }
+
+    /** See {@link UrlArchiveService#storeUrlArchiveRecords(List)} */
+    @Override
+    public void storeUrlArchiveRecords(final List<UrlArchive> records) {
+        urlArchiveRepository.saveAll(records);
     }
 }
