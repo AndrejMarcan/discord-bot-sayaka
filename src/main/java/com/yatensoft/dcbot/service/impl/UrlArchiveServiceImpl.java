@@ -6,10 +6,9 @@ import com.yatensoft.dcbot.enumeration.TopicEnum;
 import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import com.yatensoft.dcbot.persitence.repository.UrlArchiveRepository;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Implementation of UrlArchiveService

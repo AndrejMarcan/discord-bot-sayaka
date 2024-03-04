@@ -10,7 +10,9 @@ public class MessageConstant {
     public static final String NEW_VERSION_DEPLOYED_TEMPLATE = "Hello. New version of mine %s was just released.";
     /** Other */
     public static final String REGEX_TO_SPLIT_MESSAGE_ON_WHITESPACE_CHARACTERS = "\\s+";
-    public static final String REGEX_URL_EXTRACTION = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+
+    public static final String REGEX_URL_EXTRACTION =
+            "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
     /** Bot Messages */
     public static final String NO_NEW_ARTICLE_WAS_ADDED =
             "No new articles were added. The newest article can be found in 'news' channel";

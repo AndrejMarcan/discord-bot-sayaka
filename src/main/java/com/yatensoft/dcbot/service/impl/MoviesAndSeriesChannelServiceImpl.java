@@ -1,3 +1,4 @@
+/** By YamiY Yaten */
 package com.yatensoft.dcbot.service.impl;
 
 import com.yatensoft.dcbot.config.DiscordBotConfig;
@@ -7,19 +8,16 @@ import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
 import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import com.yatensoft.dcbot.service.skeleton.MoviesAndSeriesChannelService;
-import com.yatensoft.dcbot.service.skeleton.MusicChannelService;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import com.yatensoft.dcbot.util.BotUtils;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Implementation of MoviesAndSeriesChannelService interface responsible for handling operations in
@@ -39,12 +37,17 @@ public class MoviesAndSeriesChannelServiceImpl implements MoviesAndSeriesChannel
     public void handleMessageEvent(final MessageReceivedEvent messageEvent) {
         /* Check if message contains URLs */
         final List<String> extractedUrls = BotUtils.collectUrlsFromText(messageEvent.getMessage());
-        final List<UrlArchive> newUrls = getUrlArchiveRecordsToSave(extractedUrls).parallelStream().filter(record -> !urlArchiveService.checkIfUrlArchiveRecordExists(record.getUrl(), TopicEnum.COMMON, ArchiveTypeEnum.VIDEO)).toList();
+        final List<UrlArchive> newUrls = getUrlArchiveRecordsToSave(extractedUrls).parallelStream()
+                .filter(record -> !urlArchiveService.checkIfUrlArchiveRecordExists(
+                        record.getUrl(), TopicEnum.COMMON, ArchiveTypeEnum.VIDEO))
+                .toList();
         /* If new URLs are present store them in DB and post a message in recommendation channel */
-        if(!CollectionUtils.isEmpty(newUrls)){
+        if (!CollectionUtils.isEmpty(newUrls)) {
             urlArchiveService.storeUrlArchiveRecords(newUrls);
-            DiscordBotConfig.getBotJDA().getChannelById(TextChannel.class, ChannelConstant.RECOMMENDED_MOVIES_AND_SERIES_CHANNEL)
-                    .sendMessage(createMessage(newUrls, messageEvent)).queue();
+            DiscordBotConfig.getBotJDA()
+                    .getChannelById(TextChannel.class, ChannelConstant.RECOMMENDED_MOVIES_AND_SERIES_CHANNEL)
+                    .sendMessage(createMessage(newUrls, messageEvent))
+                    .queue();
         }
     }
 
@@ -65,9 +68,12 @@ public class MoviesAndSeriesChannelServiceImpl implements MoviesAndSeriesChannel
 
     /** Build a message for recommended movies and series channel. */
     private String createMessage(final List<UrlArchive> records, final MessageReceivedEvent messageEvent) {
-        final List<String> urls = records.stream().map(record -> record.getUrl()).toList();
-        StringBuilder stringbuilder = new StringBuilder(String.format(MessageConstant.POST_NEW_RECOMMENDATIONS_WITH_CREDITS, messageEvent.getAuthor().getAsMention()));
-        for (String url: urls) {
+        final List<String> urls =
+                records.stream().map(record -> record.getUrl()).toList();
+        StringBuilder stringbuilder = new StringBuilder(String.format(
+                MessageConstant.POST_NEW_RECOMMENDATIONS_WITH_CREDITS,
+                messageEvent.getAuthor().getAsMention()));
+        for (String url : urls) {
             stringbuilder.append(url);
             stringbuilder.append('\n');
         }

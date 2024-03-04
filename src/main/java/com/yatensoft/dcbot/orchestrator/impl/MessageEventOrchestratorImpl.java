@@ -1,3 +1,4 @@
+/** By YamiY Yaten */
 package com.yatensoft.dcbot.orchestrator.impl;
 
 import com.yatensoft.dcbot.constant.ChannelConstant;
@@ -6,13 +7,12 @@ import com.yatensoft.dcbot.orchestrator.skeleton.MessageEventOrchestrator;
 import com.yatensoft.dcbot.service.skeleton.MoviesAndSeriesChannelService;
 import com.yatensoft.dcbot.service.skeleton.MusicChannelService;
 import com.yatensoft.dcbot.util.BotUtils;
+import java.io.IOException;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.jsoup.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 /**
  * Implementation of MessageEventOrchestrator interface responsible for delegating message event to their respective handlers.
@@ -23,9 +23,10 @@ public class MessageEventOrchestratorImpl implements MessageEventOrchestrator {
     private final MoviesAndSeriesChannelService moviesAndSeriesChannelService;
     private final MusicChannelService musicChannelService;
 
-    public MessageEventOrchestratorImpl(@Autowired final MessageCommandOrchestrator messageCommandOrchestrator,
-                                        @Autowired final MoviesAndSeriesChannelService moviesAndSeriesChannelService,
-                                        @Autowired final MusicChannelService musicChannelService) {
+    public MessageEventOrchestratorImpl(
+            @Autowired final MessageCommandOrchestrator messageCommandOrchestrator,
+            @Autowired final MoviesAndSeriesChannelService moviesAndSeriesChannelService,
+            @Autowired final MusicChannelService musicChannelService) {
         super();
         this.messageCommandOrchestrator = messageCommandOrchestrator;
         this.moviesAndSeriesChannelService = moviesAndSeriesChannelService;
@@ -38,7 +39,7 @@ public class MessageEventOrchestratorImpl implements MessageEventOrchestrator {
         /* Extract command from message where Sayaka(BOT -> @Sayaka) is mentioned */
         final String command = extractCommandFromMessageForSayaka(event.getMessage());
         /* Handle command message - should be handled in all channels */
-        if(isCommandEvent(command)) {
+        if (isCommandEvent(command)) {
             /* Notify users that command message was caught */
             event.getChannel().sendTyping().queue();
             /* Pass the message to command orchestrator */
@@ -49,12 +50,12 @@ public class MessageEventOrchestratorImpl implements MessageEventOrchestrator {
             }
         }
         /* Process message in channel specific way */
-        if(isMessageFromMoviesAndSeriesChannel(event)){
+        if (isMessageFromMoviesAndSeriesChannel(event)) {
             moviesAndSeriesChannelService.handleMessageEvent(event);
             return;
         }
         /* Process message in channel specific way */
-        if(isMessageFromMusicChannel(event)){
+        if (isMessageFromMusicChannel(event)) {
             musicChannelService.handleMessageEvent(event);
             return;
         }

@@ -4,7 +4,6 @@ package com.yatensoft.dcbot.service.skeleton;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
 import com.yatensoft.dcbot.persitence.entity.UrlArchive;
-
 import java.util.List;
 
 /**
