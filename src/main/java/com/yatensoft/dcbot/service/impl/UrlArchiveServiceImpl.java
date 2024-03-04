@@ -1,7 +1,7 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.service.impl;
 
-import com.yatensoft.dcbot.enumeration.ArticleTypeEnum;
+import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
 import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import com.yatensoft.dcbot.persitence.repository.UrlArchiveRepository;
@@ -27,9 +27,9 @@ public class UrlArchiveServiceImpl implements UrlArchiveService {
         urlArchiveRepository.save(record);
     }
 
-    /** See {@link UrlArchiveService#checkIfUrlArchiveRecordExists(String, TopicEnum, ArticleTypeEnum)} */
+    /** See {@link UrlArchiveService#checkIfUrlArchiveRecordExists(String, TopicEnum, ArchiveTypeEnum)} */
     @Override
-    public boolean checkIfUrlArchiveRecordExists(final String url, final TopicEnum topic, final ArticleTypeEnum type) {
+    public boolean checkIfUrlArchiveRecordExists(final String url, final TopicEnum topic, final ArchiveTypeEnum type) {
         return urlArchiveRepository.existsByUrlAndTopicAndType(url, topic.getShortName(), type.getValue());
     }
 }

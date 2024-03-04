@@ -1,53 +1,62 @@
-/** By YamiY Yaten */
-package com.yatensoft.dcbot.listener;
+package com.yatensoft.dcbot.orchestrator.impl;
 
+import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.orchestrator.impl.MessageCommandOrchestrator;
+import com.yatensoft.dcbot.orchestrator.skeleton.MessageEventOrchestrator;
 import com.yatensoft.dcbot.util.BotUtils;
-import java.io.IOException;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jsoup.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
-/**
- * Service responsible for handling message events.
- */
-@Service
-public class MessageEventListener extends ListenerAdapter {
+import java.io.IOException;
+import java.util.List;
+
+@Component
+public class MessageEventOrchestratorImpl implements MessageEventOrchestrator {
     private final MessageCommandOrchestrator messageCommandOrchestrator;
 
-    public MessageEventListener(@Autowired final MessageCommandOrchestrator messageCommandOrchestrator) {
+    public MessageEventOrchestratorImpl(@Autowired final MessageCommandOrchestrator messageCommandOrchestrator) {
         super();
         this.messageCommandOrchestrator = messageCommandOrchestrator;
     }
 
-    /** Handle received message events. */
     @Override
-    public void onMessageReceived(final MessageReceivedEvent event) {
-        /* Ignore BOT messages */
-        if (event.getAuthor().isBot()) {
-            return;
-        }
+    public void delegateEvent(final MessageReceivedEvent event) {
         /* Extract command from message where Sayaka(BOT -> @Sayaka) is mentioned */
         final String command = extractCommandFromMessageForSayaka(event.getMessage());
-        /* Return if message is not for Sayaka or command format is invalid */
-        if (StringUtil.isBlank(command)) {
-            return;
+        if(isMessageFromMoviesAndSeriesChannel(event)){
+            if(isCommandEvent(command)) {
+                handleCommandMessageEvent(command, event);
+            }
+
         }
-        /* Notify users that message was caught */
+        //handle command message event
+        if(isCommandEvent(command)) {
+            handleCommandMessageEvent(command, event);
+        }
+    }
+
+    private boolean isMessageFromMoviesAndSeriesChannel(final MessageReceivedEvent event) {
+        long eventChannelId = event.getChannel().getIdLong();
+        return ChannelConstant.MOVIES_AND_SERIES_CHANNEL == eventChannelId;
+    }
+
+    private void handleCommandMessageEvent(final String command, final MessageReceivedEvent event) {
+        /* Notify users that command message was caught */
         event.getChannel().sendTyping().queue();
-        /* Pass the message to orchestrator */
+        /* Pass the message to command orchestrator */
         try {
             messageCommandOrchestrator.delegateCommand(command, event);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean isCommandEvent(final String command) {
+        return !StringUtil.isBlank(command);
     }
 
     /** Extract command from message where Sayaka(BOT -> @Sayaka) was mentioned. */

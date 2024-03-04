@@ -6,7 +6,7 @@ import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.enumeration.ArticleTypeEnum;
+import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
 import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
@@ -42,7 +42,7 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
         final String fetchedUrl = websiteParser.getLatestArticleUrl();
         /* Check if new article URL was fetched */
         if (!urlArchiveService.checkIfUrlArchiveRecordExists(
-                fetchedUrl, TopicEnum.FLESH_AND_BLOOD, ArticleTypeEnum.ARTICLE)) {
+                fetchedUrl, TopicEnum.FLESH_AND_BLOOD, ArchiveTypeEnum.ARTICLE)) {
             /* Create new record in DB */
             urlArchiveService.createUrlArchiveRecord(createUrlArchiveRequest(fetchedUrl));
             /* Get news discord channel by ID */
@@ -61,7 +61,7 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
         UrlArchive request = new UrlArchive();
         request.setUrl(url);
         request.setTopic(TopicEnum.FLESH_AND_BLOOD.getShortName());
-        request.setType(ArticleTypeEnum.ARTICLE.getValue());
+        request.setType(ArchiveTypeEnum.ARTICLE.getValue());
         request.setDateOfCreation(Date.from(Instant.now()));
         return request;
     }
