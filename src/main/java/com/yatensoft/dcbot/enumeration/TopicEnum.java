@@ -6,7 +6,8 @@ package com.yatensoft.dcbot.enumeration;
  */
 public enum TopicEnum {
     FLESH_AND_BLOOD("fab"),
-    YUGIOH("ygo");
+    YUGIOH("ygo"),
+    COMMON("common");
 
     private String shortName;
 

@@ -6,7 +6,7 @@ import com.yatensoft.dcbot.component.skeleton.YgoScheduledTask;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.enumeration.ArticleTypeEnum;
+import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
 import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
@@ -41,7 +41,7 @@ public class YgoScheduledTaskImpl implements YgoScheduledTask {
         /* Get the latest banlist URL */
         final String fetchedUrl = websiteParser.getLatestBanListUrl();
         /* Check if new banlist URL was fetched */
-        if (!urlArchiveService.checkIfUrlArchiveRecordExists(fetchedUrl, TopicEnum.YUGIOH, ArticleTypeEnum.BANLIST)) {
+        if (!urlArchiveService.checkIfUrlArchiveRecordExists(fetchedUrl, TopicEnum.YUGIOH, ArchiveTypeEnum.BANLIST)) {
             /* Create new record in DB */
             urlArchiveService.createUrlArchiveRecord(createUrlArchiveRequest(fetchedUrl));
             /* Get news discord channel by ID */
@@ -61,7 +61,7 @@ public class YgoScheduledTaskImpl implements YgoScheduledTask {
         UrlArchive request = new UrlArchive();
         request.setUrl(url);
         request.setTopic(TopicEnum.YUGIOH.getShortName());
-        request.setType(ArticleTypeEnum.BANLIST.getValue());
+        request.setType(ArchiveTypeEnum.BANLIST.getValue());
         request.setDateOfCreation(Date.from(Instant.now()));
         return request;
     }

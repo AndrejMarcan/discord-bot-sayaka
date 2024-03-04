@@ -4,7 +4,12 @@ package com.yatensoft.dcbot.util;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.BotCommandConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.dv8tion.jda.api.entities.Message;
+import org.jsoup.internal.StringUtil;
 
 /**
  * Utility class related to bot.
@@ -40,5 +45,31 @@ public class BotUtils {
             return false;
         }
         return commandToValidate.startsWith(BotCommandConstant.COMMAND_PREFIX);
+    }
+
+    /**
+     * Collect all URLs from the message
+     * @param message message received
+     * @return list of URLs
+     */
+    public static List<String> collectUrlsFromText(final Message message) {
+        if (message == null) {
+            return new ArrayList<>();
+        }
+        final String text = message.getContentRaw();
+        if (StringUtil.isBlank(text)) {
+            return new ArrayList<>();
+        }
+
+        List<String> urls = new ArrayList<>();
+
+        final Pattern pattern = Pattern.compile(MessageConstant.REGEX_URL_EXTRACTION, Pattern.CASE_INSENSITIVE);
+        final Matcher urlMatcher = pattern.matcher(text);
+
+        while (urlMatcher.find()) {
+            urls.add(text.substring(urlMatcher.start(0), urlMatcher.end(0)));
+        }
+
+        return urls;
     }
 }
