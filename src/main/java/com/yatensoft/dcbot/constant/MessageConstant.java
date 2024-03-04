@@ -20,6 +20,7 @@ public class MessageConstant {
     public static final String UNKNOWN_COMMAND = "I'm sorry, but I do not know this command.";
     public static final String FAB_LATEST_ARTICLE_URL = "Sure. Here is the link to the latest Flesh And Blood article:";
     public static final String YGO_LATEST_BANLIST_URL = "Sure. Here is the link to the latest Yu-Gi-Oh! banlist:";
+    public static final String POST_NEW_RECOMMENDATIONS_WITH_CREDITS = "New recommended content from: %s \n";
 
     public MessageConstant() {}
 }
