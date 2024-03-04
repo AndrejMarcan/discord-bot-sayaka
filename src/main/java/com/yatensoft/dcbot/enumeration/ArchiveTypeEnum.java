@@ -4,13 +4,15 @@ package com.yatensoft.dcbot.enumeration;
 /**
  * Enum holding values for Article Types
  */
-public enum ArticleTypeEnum {
+public enum ArchiveTypeEnum {
     ARTICLE("article"),
+    MUSIC("music"),
+    VIDEO("video"),
     BANLIST("banlist");
 
     private String value;
 
-    ArticleTypeEnum(String value) {
+    ArchiveTypeEnum(String value) {
         this.value = value;
     }
 
