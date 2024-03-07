@@ -1,9 +1,9 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.service.skeleton;
 
+import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
-import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ public interface UrlArchiveService {
      * Creates record of url to be archived
      * @param record object to store in DB
      */
-    void createUrlArchiveRecord(UrlArchive record);
+    void createUrlArchiveRecord(UrlArchiveDTO record);
 
     /**
      * Fetches url archive record by url and topic or empty Optional if no record is found
@@ -29,5 +29,5 @@ public interface UrlArchiveService {
      * Create records of urls to be archived
      * @param records object to be stored in DB
      */
-    void storeUrlArchiveRecords(List<UrlArchive> records);
+    void storeUrlArchiveRecords(List<UrlArchiveDTO> records);
 }

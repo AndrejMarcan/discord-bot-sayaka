@@ -6,13 +6,11 @@ import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
+import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
-import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.Instant;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -44,7 +42,11 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
         if (!urlArchiveService.checkIfUrlArchiveRecordExists(
                 fetchedUrl, TopicEnum.FLESH_AND_BLOOD, ArchiveTypeEnum.ARTICLE)) {
             /* Create new record in DB */
-            urlArchiveService.createUrlArchiveRecord(createUrlArchiveRequest(fetchedUrl));
+            urlArchiveService.createUrlArchiveRecord(new UrlArchiveDTO.Builder()
+                    .url(fetchedUrl)
+                    .topic(TopicEnum.FLESH_AND_BLOOD)
+                    .type(ArchiveTypeEnum.ARTICLE)
+                    .build());
             /* Get news discord channel by ID */
             final TextChannel fabNews =
                     DiscordBotConfig.getBotJDA().getTextChannelById(ChannelConstant.FAB_CHANNEL_NEWS);
@@ -55,14 +57,5 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
                             fetchedUrl))
                     .queue();
         }
-    }
-    /** Create UrlArchive object for Flesh And Blood latest article */
-    private UrlArchive createUrlArchiveRequest(final String url) {
-        UrlArchive request = new UrlArchive();
-        request.setUrl(url);
-        request.setTopic(TopicEnum.FLESH_AND_BLOOD.getShortName());
-        request.setType(ArchiveTypeEnum.ARTICLE.getValue());
-        request.setDateOfCreation(Date.from(Instant.now()));
-        return request;
     }
 }
