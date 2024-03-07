@@ -40,18 +40,18 @@ jobs:
       - name: Publish Docker image to docker hub
         run: docker push ${{secrets.DOCKER_HUB_USERNAME_DEV}}/${{secrets.DOCKER_HUB_REPOSITORY_DEV}}:latest
 
-      - name: Trigger deployment of new image
-        run: |
-          response=$(curl --write-out "%{http_code}" --silent --output /dev/null \
-                     --request POST \
-                     --header 'Content-Type: application/json' \
-                     --header 'Authorization: Bearer ${{secrets.DIGITAL_OCEAN_API_TOKEN}}' \
-                     --data '{"force_build": true}' \
-                     --url https://api.digitalocean.com/v2/apps/${{secrets.DIGITAL_OCEAN_APP_ID_DEV}}/deployments)
-          if [ "$response" -eq 200 ]; then
-            echo "Deployment triggered successfully."
-            exit 0
-          else
-            echo "Deployment failed with status code $response."
-            exit 1
-          fi
+#      - name: Trigger deployment of new image
+#        run: |
+#          response=$(curl --write-out "%{http_code}" --silent --output /dev/null \
+#                     --request POST \
+#                     --header 'Content-Type: application/json' \
+#                     --header 'Authorization: Bearer ${{secrets.DIGITAL_OCEAN_API_TOKEN}}' \
+#                     --data '{"force_build": true}' \
+#                     --url https://api.digitalocean.com/v2/apps/${{secrets.DIGITAL_OCEAN_APP_ID_DEV}}/deployments)
+#          if [ "$response" -eq 200 ]; then
+#            echo "Deployment triggered successfully."
+#            exit 0
+#          else
+#            echo "Deployment failed with status code $response."
+#            exit 1
+#          fi

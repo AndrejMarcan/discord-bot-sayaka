@@ -6,9 +6,9 @@ import com.yatensoft.dcbot.component.skeleton.YgoScheduledTask;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
+import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
-import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
 import java.sql.Date;
@@ -57,11 +57,11 @@ public class YgoScheduledTaskImpl implements YgoScheduledTask {
     }
 
     /** Create UrlArchive object for Yu-Gi-Oh! banlist article */
-    private UrlArchive createUrlArchiveRequest(final String url) {
-        UrlArchive request = new UrlArchive();
+    private UrlArchiveDTO createUrlArchiveRequest(final String url) {
+        UrlArchiveDTO request = new UrlArchiveDTO();
         request.setUrl(url);
-        request.setTopic(TopicEnum.YUGIOH.getShortName());
-        request.setType(ArchiveTypeEnum.BANLIST.getValue());
+        request.setTopic(TopicEnum.YUGIOH);
+        request.setType(ArchiveTypeEnum.BANLIST);
         request.setDateOfCreation(Date.from(Instant.now()));
         return request;
     }
