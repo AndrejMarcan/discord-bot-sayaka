@@ -16,9 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-// @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class BusinessMapperTest {
+public class BusinessObjectMapperTest {
     private static final String URL_ARCHIVE_URL = "http://testing-testing.com/123";
     private static final UUID URL_ARCHIVE_ID = UUID.randomUUID();
 
