@@ -1,12 +1,12 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.component.skeleton;
+package com.yatensoft.dcbot.fab.component.skeleton;
 
 import java.io.IOException;
 
 /**
  * Class responsible for handling of parsing and processing of websites.
  */
-public interface WebsiteParser {
+public interface FabWebsiteParser {
     /**
      * Get latest article URL
      * @return url of the last article

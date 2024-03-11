@@ -1,9 +1,9 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.service.impl;
+package com.yatensoft.dcbot.fab.service.impl;
 
-import com.yatensoft.dcbot.component.impl.FabWebsiteParser;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.service.skeleton.FabCommandService;
+import com.yatensoft.dcbot.fab.component.impl.FabFabWebsiteParserImpl;
+import com.yatensoft.dcbot.fab.service.skeleton.FabCommandService;
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FabCommandServiceImpl implements FabCommandService {
-    private final FabWebsiteParser websiteParser;
+    private final FabFabWebsiteParserImpl websiteParser;
 
-    public FabCommandServiceImpl(@Autowired final FabWebsiteParser websiteParser) {
+    public FabCommandServiceImpl(@Autowired final FabFabWebsiteParserImpl websiteParser) {
         super();
         this.websiteParser = websiteParser;
     }

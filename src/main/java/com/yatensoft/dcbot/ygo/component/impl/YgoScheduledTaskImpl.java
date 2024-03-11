@@ -1,15 +1,15 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.component.impl;
+package com.yatensoft.dcbot.ygo.component.impl;
 
-import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
-import com.yatensoft.dcbot.component.skeleton.YgoScheduledTask;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
+import com.yatensoft.dcbot.fab.component.skeleton.FabWebsiteParser;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
+import com.yatensoft.dcbot.ygo.component.skeleton.YgoScheduledTask;
 import java.io.IOException;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class YgoScheduledTaskImpl implements YgoScheduledTask {
-    private final WebsiteParser websiteParser;
+    private final FabWebsiteParser websiteParser;
     private final UrlArchiveService urlArchiveService;
 
     public YgoScheduledTaskImpl(

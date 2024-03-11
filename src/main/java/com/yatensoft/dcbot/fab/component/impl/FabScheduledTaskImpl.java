@@ -1,14 +1,14 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.component.impl;
+package com.yatensoft.dcbot.fab.component.impl;
 
-import com.yatensoft.dcbot.component.skeleton.FabScheduledTask;
-import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
+import com.yatensoft.dcbot.fab.component.skeleton.FabScheduledTask;
+import com.yatensoft.dcbot.fab.component.skeleton.FabWebsiteParser;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -22,13 +22,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FabScheduledTaskImpl implements FabScheduledTask {
-    private final WebsiteParser websiteParser;
+    private final FabWebsiteParser fabWebsiteParser;
     private final UrlArchiveService urlArchiveService;
 
     public FabScheduledTaskImpl(
-            @Autowired final FabWebsiteParser websiteParser, @Autowired final UrlArchiveService urlArchiveService) {
+            @Autowired final FabFabWebsiteParserImpl websiteParser,
+            @Autowired final UrlArchiveService urlArchiveService) {
         super();
-        this.websiteParser = websiteParser;
+        this.fabWebsiteParser = websiteParser;
         this.urlArchiveService = urlArchiveService;
     }
 
@@ -37,7 +38,7 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
     @Scheduled(cron = "0 0 */4 * * *")
     public void checkLatestArticles() throws IOException {
         /* Get the latest article URL */
-        final String fetchedUrl = websiteParser.getLatestArticleUrl();
+        final String fetchedUrl = fabWebsiteParser.getLatestArticleUrl();
         /* Check if new article URL was fetched */
         if (!urlArchiveService.checkIfUrlArchiveRecordExists(
                 fetchedUrl, TopicEnum.FLESH_AND_BLOOD, ArchiveTypeEnum.ARTICLE)) {

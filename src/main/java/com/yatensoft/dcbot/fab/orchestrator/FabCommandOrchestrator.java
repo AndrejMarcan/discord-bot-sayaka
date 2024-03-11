@@ -1,29 +1,30 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.orchestrator.impl;
+package com.yatensoft.dcbot.fab.orchestrator;
 
 import com.yatensoft.dcbot.constant.BotCommandConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
+import com.yatensoft.dcbot.fab.service.skeleton.FabCommandService;
 import com.yatensoft.dcbot.orchestrator.skeleton.CommandOrchestrator;
-import com.yatensoft.dcbot.service.skeleton.YgoCommandService;
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class YgoCommandOrchestrator implements CommandOrchestrator {
-    private final YgoCommandService ygoCommandService;
+public class FabCommandOrchestrator implements CommandOrchestrator {
 
-    public YgoCommandOrchestrator(@Autowired final YgoCommandService ygoCommandService) {
+    private final FabCommandService fabCommandService;
+
+    public FabCommandOrchestrator(@Autowired final FabCommandService fabCommandService) {
         super();
-        this.ygoCommandService = ygoCommandService;
+        this.fabCommandService = fabCommandService;
     }
 
     /** See {@link CommandOrchestrator#delegateCommand(String, MessageReceivedEvent)} */
     @Override
     public void delegateCommand(final String command, final MessageReceivedEvent event) throws IOException {
-        if (BotCommandConstant.YGO_COMMAND_GET_LATEST_BANLIST_URL.equalsIgnoreCase(command)) {
-            ygoCommandService.getLatestBanListUrl(event);
+        if (BotCommandConstant.FAB_COMMAND_GET_LATEST_ARTICLE_URL.equalsIgnoreCase(command)) {
+            fabCommandService.getLatestArticleURL(event);
             return;
         }
 
