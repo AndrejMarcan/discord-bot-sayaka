@@ -1,5 +1,5 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.fab.service.skeleton;
+package com.yatensoft.dcbot.service.skeleton.fab;
 
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

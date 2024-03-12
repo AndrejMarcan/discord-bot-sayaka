@@ -1,5 +1,5 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.ygo.component.skeleton;
+package com.yatensoft.dcbot.component.skeleton.ygo;
 
 import java.io.IOException;
 

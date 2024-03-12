@@ -1,5 +1,5 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.fab.dto;
+package com.yatensoft.dcbot.dto.fab;
 
 import java.util.Date;
 

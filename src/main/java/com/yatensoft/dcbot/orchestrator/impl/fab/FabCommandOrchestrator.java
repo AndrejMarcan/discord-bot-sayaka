@@ -1,9 +1,9 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.fab.orchestrator;
+package com.yatensoft.dcbot.orchestrator.impl.fab;
 
 import com.yatensoft.dcbot.constant.BotCommandConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.fab.service.skeleton.FabCommandService;
+import com.yatensoft.dcbot.service.skeleton.fab.FabCommandService;
 import com.yatensoft.dcbot.orchestrator.skeleton.CommandOrchestrator;
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

@@ -1,5 +1,5 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.fab.component.impl;
+package com.yatensoft.dcbot.component.impl.fab;
 
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
@@ -7,8 +7,8 @@ import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
-import com.yatensoft.dcbot.fab.component.skeleton.FabScheduledTask;
-import com.yatensoft.dcbot.fab.component.skeleton.FabWebsiteParser;
+import com.yatensoft.dcbot.component.skeleton.fab.FabScheduledTask;
+import com.yatensoft.dcbot.component.skeleton.fab.FabWebsiteParser;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;

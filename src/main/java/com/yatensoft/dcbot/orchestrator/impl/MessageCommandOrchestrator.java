@@ -3,9 +3,9 @@ package com.yatensoft.dcbot.orchestrator.impl;
 
 import com.yatensoft.dcbot.constant.BotCommandConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.fab.orchestrator.FabCommandOrchestrator;
+import com.yatensoft.dcbot.orchestrator.impl.fab.FabCommandOrchestrator;
 import com.yatensoft.dcbot.orchestrator.skeleton.CommandOrchestrator;
-import com.yatensoft.dcbot.ygo.orchestrator.YgoCommandOrchestrator;
+import com.yatensoft.dcbot.orchestrator.impl.ygo.YgoCommandOrchestrator;
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;

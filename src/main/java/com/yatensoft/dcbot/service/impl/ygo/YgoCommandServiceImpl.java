@@ -1,10 +1,9 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.ygo.service.impl;
+package com.yatensoft.dcbot.service.impl.ygo;
 
-import com.yatensoft.dcbot.component.impl.ygo.YgoWebsiteParser;
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.fab.component.skeleton.FabWebsiteParser;
-import com.yatensoft.dcbot.ygo.service.skeleton.YgoCommandService;
+import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
+import com.yatensoft.dcbot.service.skeleton.ygo.YgoCommandService;
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class YgoCommandServiceImpl implements YgoCommandService {
-    private final FabWebsiteParser websiteParser;
+    private final YgoWebsiteParser websiteParser;
 
     public YgoCommandServiceImpl(@Autowired final YgoWebsiteParser websiteParser) {
         super();

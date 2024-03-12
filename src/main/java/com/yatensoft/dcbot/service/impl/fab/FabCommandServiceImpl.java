@@ -1,9 +1,9 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.fab.service.impl;
+package com.yatensoft.dcbot.service.impl.fab;
 
 import com.yatensoft.dcbot.constant.MessageConstant;
-import com.yatensoft.dcbot.fab.component.impl.FabFabWebsiteParserImpl;
-import com.yatensoft.dcbot.fab.service.skeleton.FabCommandService;
+import com.yatensoft.dcbot.component.impl.fab.FabFabWebsiteParserImpl;
+import com.yatensoft.dcbot.service.skeleton.fab.FabCommandService;
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
