@@ -3,18 +3,17 @@ package com.yatensoft.dcbot.dto.fab;
 
 import java.util.Date;
 
-public class FabPagesListBlockDTO {
-    private String articleUrl;
+public class FabArticleDTO {
+    private String url;
     private String title;
     private Date date;
 
-    // Getters and setters
-    public String getLink() {
-        return articleUrl;
+    public String getUrl() {
+        return url;
     }
 
-    public void setLink(String link) {
-        this.articleUrl = link;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getTitle() {

@@ -17,7 +17,10 @@ public class MessageConstant {
     public static final String NO_NEW_ARTICLE_WAS_ADDED =
             "No new articles were added. The newest article can be found in 'news' channel";
 
-    public static final String NEW_ARTICLE_WAS_ADDED_FAB = "New article was published on Flesh And Blood page. See at:";
+    public static final String NEW_ARTICLE_WAS_ADDED_FAB =
+            "New article was published on Flesh And Blood page. See at: \n";
+    public static final String NEW_ARTICLES_WERE_ADDED_FAB =
+            "%d new articles were published on Flesh And Blood page. See at: \n";
     public static final String NEW_BANLIST_WAS_ADDED_YGO = "New banlist was published on Yu-Gi-Oh! page. See at:";
     public static final String UNKNOWN_COMMAND = "I'm sorry, but I do not know this command.";
     public static final String FAB_LATEST_ARTICLE_URL = "Sure. Here is the link to the latest Flesh And Blood article:";

@@ -3,11 +3,10 @@ package com.yatensoft.dcbot.component.impl.fab;
 
 import com.yatensoft.dcbot.component.skeleton.fab.FabWebsiteParser;
 import com.yatensoft.dcbot.constant.WebsiteParserConstant;
-import com.yatensoft.dcbot.dto.fab.FabPagesListBlockDTO;
+import com.yatensoft.dcbot.dto.fab.FabArticleDTO;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Component;
  * of fabtcg website related to Flesh And Blood channels.
  */
 @Component
-public class FabFabWebsiteParserImpl implements FabWebsiteParser {
+public class FabWebsiteParserImpl implements FabWebsiteParser {
 
     /** fabtcg.com Constants */
     private static final String FABTCG_PAGES_LIST_BLOCK_ID = "pagesListblock";
@@ -40,9 +39,9 @@ public class FabFabWebsiteParserImpl implements FabWebsiteParser {
     @Value("${fabtcg.url.articles}")
     private String FABTCG_ARTICLES_URL;
 
-    /** See {@link FabWebsiteParser#getLatestArticlesSorted()} */
+    /** See {@link FabWebsiteParser#getLatestArticles()} */
     @Override
-    public List<FabPagesListBlockDTO> getLatestArticlesSorted() throws IOException {
+    public List<FabArticleDTO> getLatestArticles() throws IOException {
         try {
             /* Get document */
             final Document doc = Jsoup.connect(FABTCG_ARTICLES_URL).get();
@@ -51,24 +50,22 @@ public class FabFabWebsiteParserImpl implements FabWebsiteParser {
             /* Get all item elements */
             final Elements items = pagesListBlock.getElementsByClass(FABTCG_ITEM_LINK_CLASS);
 
-            return items.stream()
-                    .map(item -> parseHTMLToItem(item))
-                    .sorted(Comparator.comparing(FabPagesListBlockDTO::getDate).reversed())
-                    .toList();
+            return items.stream().map(item -> parseHTMLToItem(item)).toList();
+
         } catch (IOException ex) {
             throw ex;
         }
     }
 
     /** Parse the HTML element to DTO */
-    private FabPagesListBlockDTO parseHTMLToItem(final Element element) {
-        final FabPagesListBlockDTO item = new FabPagesListBlockDTO();
+    private FabArticleDTO parseHTMLToItem(final Element element) {
+        final FabArticleDTO item = new FabArticleDTO();
         final Element linkElement = element.selectFirst(FABTCG_URL_ELEMENT_CSS_QUERY);
         final Element titleElement = element.selectFirst(FABTCG_TITLE_ELEMENT_CSS_QUERY);
         final Element dateElement = element.selectFirst(FABTCG_DATE_ELEMENT_CSS_QUERY);
 
         if (linkElement != null) {
-            item.setLink(linkElement.attr(WebsiteParserConstant.HREF));
+            item.setUrl(linkElement.attr(WebsiteParserConstant.HREF));
         }
         if (titleElement != null) {
             item.setTitle(titleElement.text());
