@@ -1,7 +1,7 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.persitence.repository;
 
-import com.yatensoft.dcbot.persitence.entity.UrlArchive;
+import com.yatensoft.dcbot.persitence.model.UrlArchive;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 

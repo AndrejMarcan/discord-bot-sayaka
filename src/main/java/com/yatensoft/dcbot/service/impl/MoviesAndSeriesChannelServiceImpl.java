@@ -4,14 +4,12 @@ package com.yatensoft.dcbot.service.impl;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
+import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
-import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import com.yatensoft.dcbot.service.skeleton.MoviesAndSeriesChannelService;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import com.yatensoft.dcbot.util.BotUtils;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -37,7 +35,7 @@ public class MoviesAndSeriesChannelServiceImpl implements MoviesAndSeriesChannel
     public void handleMessageEvent(final MessageReceivedEvent messageEvent) {
         /* Check if message contains URLs */
         final List<String> extractedUrls = BotUtils.collectUrlsFromText(messageEvent.getMessage());
-        final List<UrlArchive> newUrls = getUrlArchiveRecordsToSave(extractedUrls).parallelStream()
+        final List<UrlArchiveDTO> newUrls = getUrlArchiveRecordsToSave(extractedUrls).parallelStream()
                 .filter(record -> !urlArchiveService.checkIfUrlArchiveRecordExists(
                         record.getUrl(), TopicEnum.COMMON, ArchiveTypeEnum.VIDEO))
                 .toList();
@@ -52,22 +50,18 @@ public class MoviesAndSeriesChannelServiceImpl implements MoviesAndSeriesChannel
     }
 
     /** Prepare list of UrlArchive objects for recommended movie or series. */
-    private List<UrlArchive> getUrlArchiveRecordsToSave(final List<String> urls) {
-        return urls.stream().map(url -> createUrlArchiveRecordRequest(url)).toList();
-    }
-
-    /** Create UrlArchive object for recommended movie or series. */
-    private UrlArchive createUrlArchiveRecordRequest(final String url) {
-        UrlArchive urlArchive = new UrlArchive();
-        urlArchive.setUrl(url);
-        urlArchive.setDateOfCreation(Date.from(Instant.now()));
-        urlArchive.setType(ArchiveTypeEnum.VIDEO.getValue());
-        urlArchive.setTopic(TopicEnum.COMMON.getShortName());
-        return urlArchive;
+    private List<UrlArchiveDTO> getUrlArchiveRecordsToSave(final List<String> urls) {
+        return urls.stream()
+                .map(url -> new UrlArchiveDTO.Builder()
+                        .url(url)
+                        .type(ArchiveTypeEnum.VIDEO)
+                        .topic(TopicEnum.COMMON)
+                        .build())
+                .toList();
     }
 
     /** Build a message for recommended movies and series channel. */
-    private String createMessage(final List<UrlArchive> records, final MessageReceivedEvent messageEvent) {
+    private String createMessage(final List<UrlArchiveDTO> records, final MessageReceivedEvent messageEvent) {
         final List<String> urls =
                 records.stream().map(record -> record.getUrl()).toList();
         StringBuilder stringbuilder = new StringBuilder(String.format(

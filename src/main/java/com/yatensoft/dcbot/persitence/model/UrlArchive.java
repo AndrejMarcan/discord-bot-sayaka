@@ -1,5 +1,5 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.persitence.entity;
+package com.yatensoft.dcbot.persitence.model;
 
 import jakarta.persistence.*;
 import java.util.Date;

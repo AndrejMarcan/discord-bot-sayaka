@@ -1,18 +1,16 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.component.impl;
+package com.yatensoft.dcbot.component.impl.ygo;
 
-import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
-import com.yatensoft.dcbot.component.skeleton.YgoScheduledTask;
+import com.yatensoft.dcbot.component.skeleton.ygo.YgoScheduledTask;
+import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
+import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
-import com.yatensoft.dcbot.persitence.entity.UrlArchive;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.Instant;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,7 +22,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class YgoScheduledTaskImpl implements YgoScheduledTask {
-    private final WebsiteParser websiteParser;
+    private final YgoWebsiteParser websiteParser;
     private final UrlArchiveService urlArchiveService;
 
     public YgoScheduledTaskImpl(
@@ -43,7 +41,11 @@ public class YgoScheduledTaskImpl implements YgoScheduledTask {
         /* Check if new banlist URL was fetched */
         if (!urlArchiveService.checkIfUrlArchiveRecordExists(fetchedUrl, TopicEnum.YUGIOH, ArchiveTypeEnum.BANLIST)) {
             /* Create new record in DB */
-            urlArchiveService.createUrlArchiveRecord(createUrlArchiveRequest(fetchedUrl));
+            urlArchiveService.createUrlArchiveRecord(new UrlArchiveDTO.Builder()
+                    .url(fetchedUrl)
+                    .topic(TopicEnum.YUGIOH)
+                    .type(ArchiveTypeEnum.BANLIST)
+                    .build());
             /* Get news discord channel by ID */
             final TextChannel ygoNews =
                     DiscordBotConfig.getBotJDA().getTextChannelById(ChannelConstant.YGO_CHANNEL_NEWS);
@@ -54,15 +56,5 @@ public class YgoScheduledTaskImpl implements YgoScheduledTask {
                             fetchedUrl))
                     .queue();
         }
-    }
-
-    /** Create UrlArchive object for Yu-Gi-Oh! banlist article */
-    private UrlArchive createUrlArchiveRequest(final String url) {
-        UrlArchive request = new UrlArchive();
-        request.setUrl(url);
-        request.setTopic(TopicEnum.YUGIOH.getShortName());
-        request.setType(ArchiveTypeEnum.BANLIST.getValue());
-        request.setDateOfCreation(Date.from(Instant.now()));
-        return request;
     }
 }

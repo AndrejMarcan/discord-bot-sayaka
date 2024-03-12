@@ -1,7 +1,7 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.component.impl;
+package com.yatensoft.dcbot.component.impl.ygo;
 
-import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
+import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
 import com.yatensoft.dcbot.constant.WebsiteParserConstant;
 import java.io.IOException;
 import org.jsoup.Jsoup;
@@ -15,20 +15,14 @@ import org.springframework.stereotype.Component;
  * of yugioh-card website related to Yu-Gi-Oh! channels.
  */
 @Component
-public class YgoWebsiteParser implements WebsiteParser {
+public class YgoWebsiteParserImpl implements YgoWebsiteParser {
     @Value("${ygocard.url.base}")
     private String YGO_BASE_URL;
 
     @Value("${ygocard.url.banlist}")
     private String YGO_BANLIST_URL;
 
-    /** See {@link WebsiteParser#getLatestArticleUrl()} */
-    @Override
-    public String getLatestArticleUrl() throws IOException {
-        return null;
-    }
-
-    /** See {@link WebsiteParser#getLatestBanListUrl()} */
+    /** See {@link YgoWebsiteParser#getLatestBanListUrl()} */
     @Override
     public String getLatestBanListUrl() throws IOException {
         try {
