@@ -37,8 +37,7 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
 
     /** See {@link FabScheduledTask#checkLatestArticles()} */
     @Override
-    @Scheduled(cron = "0 */1 * * * *")
-    //    @Scheduled(cron = "0 0 */4 * * *")
+    @Scheduled(cron = "0 0 */4 * * *")
     public void checkLatestArticles() throws IOException {
         System.out.println("I AM IN");
         /* Get the latest articles */
