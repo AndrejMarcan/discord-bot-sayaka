@@ -1,8 +1,8 @@
 /** By YamiY Yaten */
-package com.yatensoft.dcbot.component.impl;
+package com.yatensoft.dcbot.component.impl.ygo;
 
-import com.yatensoft.dcbot.component.skeleton.WebsiteParser;
-import com.yatensoft.dcbot.component.skeleton.YgoScheduledTask;
+import com.yatensoft.dcbot.component.skeleton.ygo.YgoScheduledTask;
+import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class YgoScheduledTaskImpl implements YgoScheduledTask {
-    private final WebsiteParser websiteParser;
+    private final YgoWebsiteParser websiteParser;
     private final UrlArchiveService urlArchiveService;
 
     public YgoScheduledTaskImpl(
