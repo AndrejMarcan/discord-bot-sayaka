@@ -1,6 +1,8 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.component.impl.ygo;
 
+import com.yatensoft.dcbot.component.skeleton.ygo.YgoScheduledTask;
+import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
@@ -8,10 +10,7 @@ import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
-import com.yatensoft.dcbot.component.skeleton.ygo.YgoScheduledTask;
 import java.io.IOException;
-
-import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

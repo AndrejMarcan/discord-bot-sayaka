@@ -9,5 +9,4 @@ public class WebsiteParserConstant {
     public static final String HREF = "href";
 
     public WebsiteParserConstant() {}
-    ;
 }

@@ -1,8 +1,8 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.service.impl.fab;
 
-import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.component.impl.fab.FabFabWebsiteParserImpl;
+import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.service.skeleton.fab.FabCommandService;
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -26,7 +26,7 @@ public class FabCommandServiceImpl implements FabCommandService {
     @Override
     public void getLatestArticleURL(final MessageReceivedEvent event) throws IOException {
         /* Get the latest article URL */
-        final String fetchedUrl = websiteParser.getLatestArticleUrl();
+        final String fetchedUrl = websiteParser.getLatestArticlesSorted();
         /* Send a message to the news channel */
         event.getChannel()
                 .sendMessage(String.format(

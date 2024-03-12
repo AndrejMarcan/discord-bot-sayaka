@@ -1,14 +1,14 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.component.impl.fab;
 
+import com.yatensoft.dcbot.component.skeleton.fab.FabScheduledTask;
+import com.yatensoft.dcbot.component.skeleton.fab.FabWebsiteParser;
 import com.yatensoft.dcbot.config.DiscordBotConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
-import com.yatensoft.dcbot.component.skeleton.fab.FabScheduledTask;
-import com.yatensoft.dcbot.component.skeleton.fab.FabWebsiteParser;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -38,7 +38,7 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
     @Scheduled(cron = "0 0 */4 * * *")
     public void checkLatestArticles() throws IOException {
         /* Get the latest article URL */
-        final String fetchedUrl = fabWebsiteParser.getLatestArticleUrl();
+        final String fetchedUrl = fabWebsiteParser.getLatestArticlesSorted();
         /* Check if new article URL was fetched */
         if (!urlArchiveService.checkIfUrlArchiveRecordExists(
                 fetchedUrl, TopicEnum.FLESH_AND_BLOOD, ArchiveTypeEnum.ARTICLE)) {

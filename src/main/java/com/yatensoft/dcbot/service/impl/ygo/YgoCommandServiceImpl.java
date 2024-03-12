@@ -1,8 +1,8 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.service.impl.ygo;
 
-import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
+import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.service.skeleton.ygo.YgoCommandService;
 import java.io.IOException;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

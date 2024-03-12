@@ -1,8 +1,8 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.component.impl.ygo;
 
-import com.yatensoft.dcbot.constant.WebsiteParserConstant;
 import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
+import com.yatensoft.dcbot.constant.WebsiteParserConstant;
 import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
