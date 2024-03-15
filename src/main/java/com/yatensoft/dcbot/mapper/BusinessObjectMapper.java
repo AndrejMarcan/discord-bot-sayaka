@@ -27,8 +27,8 @@ public class BusinessObjectMapper {
 
         UrlArchive result = new UrlArchive();
 
-        result.setId(source.getId() == null ? null : source.getId());
-        result.setUrl(source.getUrl() == null ? null : source.getUrl());
+        result.setId(source.getId());
+        result.setUrl(source.getUrl());
         result.setTopic(source.getTopic() == null ? null : source.getTopic().getShortName());
         result.setType(source.getType() == null ? null : source.getType().getValue());
         result.setDateOfCreation(

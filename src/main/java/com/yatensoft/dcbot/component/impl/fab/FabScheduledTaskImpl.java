@@ -39,7 +39,6 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
     @Override
     @Scheduled(cron = "0 0 */4 * * *")
     public void checkLatestArticles() throws IOException {
-        System.out.println("I AM IN");
         /* Get the latest articles */
         final List<FabArticleDTO> newLatestArticles = fabWebsiteParser.getLatestArticles().parallelStream()
                 .filter(article -> !urlArchiveService.checkIfUrlArchiveRecordExists(
@@ -52,7 +51,8 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
             /* Create new records in DB */
             urlArchiveService.storeUrlArchiveRecords(newUrls);
             DiscordBotConfig.getBotJDA()
-                    .getTextChannelById(ChannelConstant.FAB_CHANNEL_NEWS)
+                    .getTextChannelById(
+                            ChannelConstant.FAB_CHANNEL_NEWS) // getdiscord server --- id get channels id -> id
                     .sendMessage(createMessage(newLatestArticles, newUrls.size()))
                     .queue();
         }
