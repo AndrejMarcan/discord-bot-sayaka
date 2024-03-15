@@ -15,16 +15,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /** Base initialization class. */
 @Configuration
 @EnableScheduling
-public class DiscordBotConfig {
+public class SayakaConfig {
     @Value("${discord.bot.token}")
-    private String BOT_TOKEN;
+    private String SAYAKA_BOT_TOKEN;
 
     private final MessageEventListener messageEventListener;
     private final OnReadyEventListener onReadyEventListener;
 
-    private static JDA bot;
+    private static JDA sayaka;
 
-    DiscordBotConfig(
+    SayakaConfig(
             @Autowired final MessageEventListener messageEventListener,
             @Autowired final OnReadyEventListener onReadyEventListener) {
         super();
@@ -35,14 +35,14 @@ public class DiscordBotConfig {
     /** JDA initialization. */
     @PostConstruct
     private void init() {
-        this.bot = JDABuilder.createDefault(BOT_TOKEN)
+        this.sayaka = JDABuilder.createDefault(SAYAKA_BOT_TOKEN)
                 .addEventListeners(messageEventListener, onReadyEventListener)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
     }
 
     /** Get JDA instance. */
-    public static JDA getBotJDA() {
-        return bot;
+    public static JDA getSayaka() {
+        return sayaka;
     }
 }

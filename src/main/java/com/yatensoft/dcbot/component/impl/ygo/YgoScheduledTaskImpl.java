@@ -3,7 +3,7 @@ package com.yatensoft.dcbot.component.impl.ygo;
 
 import com.yatensoft.dcbot.component.skeleton.ygo.YgoScheduledTask;
 import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
-import com.yatensoft.dcbot.config.DiscordBotConfig;
+import com.yatensoft.dcbot.config.SayakaConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
@@ -47,8 +47,7 @@ public class YgoScheduledTaskImpl implements YgoScheduledTask {
                     .type(ArchiveTypeEnum.BANLIST)
                     .build());
             /* Get news discord channel by ID */
-            final TextChannel ygoNews =
-                    DiscordBotConfig.getBotJDA().getTextChannelById(ChannelConstant.YGO_CHANNEL_NEWS);
+            final TextChannel ygoNews = SayakaConfig.getSayaka().getTextChannelById(ChannelConstant.YGO_CHANNEL_NEWS);
             /* Send a message to the news channel */
             ygoNews.sendMessage(String.format(
                             MessageConstant.TWO_PARTS_MESSAGE_TEMPLATE,

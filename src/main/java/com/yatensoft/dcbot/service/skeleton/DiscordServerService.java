@@ -2,6 +2,7 @@
 package com.yatensoft.dcbot.service.skeleton;
 
 import com.yatensoft.dcbot.dto.DiscordServerDTO;
+import com.yatensoft.dcbot.enumeration.SayakaManagedServerEnum;
 import org.springframework.cache.annotation.Cacheable;
 
 /**
@@ -14,5 +15,5 @@ public interface DiscordServerService {
      * @return discord server data
      */
     @Cacheable
-    DiscordServerDTO getDiscordServerByName(String discordServerName);
+    DiscordServerDTO getDiscordServerByName(SayakaManagedServerEnum discordServerName);
 }

@@ -12,12 +12,13 @@ import org.springframework.context.annotation.Configuration;
 @EnableCaching
 public class CacheConfig {
     public static final String DISCORD_CHANNEL_CACHE_NAME = "discord-channel";
+    public static final String DISCORD_SERVER_CACHE_NAME = "discord-server";
 
     @Bean
     public CaffeineCacheManager cacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
         cacheManager.setCaffeine(Caffeine.newBuilder().maximumSize(100));
-        cacheManager.setCacheNames(List.of(DISCORD_CHANNEL_CACHE_NAME));
+        cacheManager.setCacheNames(List.of(DISCORD_CHANNEL_CACHE_NAME, DISCORD_SERVER_CACHE_NAME));
         return cacheManager;
     }
 }

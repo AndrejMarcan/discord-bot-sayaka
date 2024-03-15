@@ -1,7 +1,7 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.service.impl;
 
-import com.yatensoft.dcbot.config.DiscordBotConfig;
+import com.yatensoft.dcbot.config.SayakaConfig;
 import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
@@ -41,7 +41,7 @@ public class MusicChannelServiceImpl implements MusicChannelService {
         /* If new URLs are present store them in DB and post a message in recommendation channel */
         if (!CollectionUtils.isEmpty(newUrls)) {
             urlArchiveService.storeUrlArchiveRecords(newUrls);
-            DiscordBotConfig.getBotJDA()
+            SayakaConfig.getSayaka()
                     .getChannelById(TextChannel.class, ChannelConstant.RECOMMENDED_MUSIC_CHANNEL)
                     .sendMessage(createMessage(newUrls, messageEvent))
                     .queue();

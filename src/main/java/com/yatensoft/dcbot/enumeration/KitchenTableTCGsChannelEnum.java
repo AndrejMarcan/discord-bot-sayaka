@@ -1,7 +1,10 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.enumeration;
 
-public enum KitchenTableTCGsServerEnum {
+/**
+ * Enum holding channel names of KitchenTableTCGs server
+ */
+public enum KitchenTableTCGsChannelEnum {
     GENERAL_GENERAL("GENERAL_general"),
     GENERAL_RECOMMENDATIONS("GENERAL_recommendations"),
     GENERAL_OTHER_SHIT("GENERAL_other-shit"),
@@ -31,7 +34,7 @@ public enum KitchenTableTCGsServerEnum {
 
     private final String channelKey;
 
-    KitchenTableTCGsServerEnum(final String channelKey) {
+    KitchenTableTCGsChannelEnum(final String channelKey) {
         this.channelKey = channelKey;
     }
 

@@ -1,7 +1,7 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.util;
 
-import com.yatensoft.dcbot.config.DiscordBotConfig;
+import com.yatensoft.dcbot.config.SayakaConfig;
 import com.yatensoft.dcbot.constant.BotCommandConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class BotUtils {
      */
     public static boolean isSayakaMentioned(Message message) {
         return message.getMentions().getMembers().stream().anyMatch(member -> member.getId()
-                .equals(DiscordBotConfig.getBotJDA().getSelfUser().getId()));
+                .equals(SayakaConfig.getSayaka().getSelfUser().getId()));
     }
 
     /**
@@ -32,7 +32,7 @@ public class BotUtils {
     public static String getSayakaAsMentionInRawFormat() {
         return String.format(
                 MessageConstant.MENTION_RAW_FORMAT_TEMPLATE,
-                DiscordBotConfig.getBotJDA().getSelfUser().getId());
+                SayakaConfig.getSayaka().getSelfUser().getId());
     }
 
     /**
