@@ -1,17 +1,18 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.service.impl;
 
-import com.yatensoft.dcbot.config.DiscordBotConfig;
-import com.yatensoft.dcbot.constant.ChannelConstant;
+import com.yatensoft.dcbot.config.SayakaConfig;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
+import com.yatensoft.dcbot.enumeration.KitchenTableTCGsChannelEnum;
+import com.yatensoft.dcbot.enumeration.SayakaManagedServerEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
+import com.yatensoft.dcbot.service.skeleton.DiscordService;
 import com.yatensoft.dcbot.service.skeleton.MoviesAndSeriesChannelService;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import com.yatensoft.dcbot.util.BotUtils;
 import java.util.List;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,13 @@ import org.springframework.util.CollectionUtils;
 @Service
 public class MoviesAndSeriesChannelServiceImpl implements MoviesAndSeriesChannelService {
     private final UrlArchiveService urlArchiveService;
+    private final DiscordService discordService;
 
-    public MoviesAndSeriesChannelServiceImpl(@Autowired final UrlArchiveService urlArchiveService) {
+    public MoviesAndSeriesChannelServiceImpl(
+            @Autowired final UrlArchiveService urlArchiveService, @Autowired final DiscordService discordService) {
         super();
         this.urlArchiveService = urlArchiveService;
+        this.discordService = discordService;
     }
 
     /** See {@link MoviesAndSeriesChannelService#handleMessageEvent(MessageReceivedEvent)} */
@@ -42,8 +46,10 @@ public class MoviesAndSeriesChannelServiceImpl implements MoviesAndSeriesChannel
         /* If new URLs are present store them in DB and post a message in recommendation channel */
         if (!CollectionUtils.isEmpty(newUrls)) {
             urlArchiveService.storeUrlArchiveRecords(newUrls);
-            DiscordBotConfig.getBotJDA()
-                    .getChannelById(TextChannel.class, ChannelConstant.RECOMMENDED_MOVIES_AND_SERIES_CHANNEL)
+            SayakaConfig.getSayaka()
+                    .getTextChannelById(discordService.getChannelIdByServerAndChannelKey(
+                            SayakaManagedServerEnum.KITCHEN_TABLE_TCGS,
+                            KitchenTableTCGsChannelEnum.ENTERTAINMENT_REC_MOVIES_AND_SERIES.getChannelKey()))
                     .sendMessage(createMessage(newUrls, messageEvent))
                     .queue();
         }
