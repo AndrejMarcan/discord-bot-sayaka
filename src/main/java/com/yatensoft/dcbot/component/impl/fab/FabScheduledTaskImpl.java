@@ -11,8 +11,6 @@ import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
 import com.yatensoft.dcbot.enumeration.KitchenTableTCGsChannelEnum;
 import com.yatensoft.dcbot.enumeration.SayakaManagedServerEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
-import com.yatensoft.dcbot.service.skeleton.DiscordChannelService;
-import com.yatensoft.dcbot.service.skeleton.DiscordServerService;
 import com.yatensoft.dcbot.service.skeleton.DiscordService;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
@@ -36,9 +34,7 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
     public FabScheduledTaskImpl(
             @Autowired final FabWebsiteParser fabWebsiteParser,
             @Autowired final UrlArchiveService urlArchiveService,
-            @Autowired final DiscordServerService discordServerService,
-            DiscordChannelService discordChannelService,
-            DiscordService discordService) {
+            @Autowired final DiscordService discordService) {
         super();
         this.fabWebsiteParser = fabWebsiteParser;
         this.urlArchiveService = urlArchiveService;

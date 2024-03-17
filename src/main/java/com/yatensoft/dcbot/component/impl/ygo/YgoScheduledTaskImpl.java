@@ -4,11 +4,13 @@ package com.yatensoft.dcbot.component.impl.ygo;
 import com.yatensoft.dcbot.component.skeleton.ygo.YgoScheduledTask;
 import com.yatensoft.dcbot.component.skeleton.ygo.YgoWebsiteParser;
 import com.yatensoft.dcbot.config.SayakaConfig;
-import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
+import com.yatensoft.dcbot.enumeration.KitchenTableTCGsChannelEnum;
+import com.yatensoft.dcbot.enumeration.SayakaManagedServerEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
+import com.yatensoft.dcbot.service.skeleton.DiscordService;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -24,12 +26,16 @@ import org.springframework.stereotype.Component;
 public class YgoScheduledTaskImpl implements YgoScheduledTask {
     private final YgoWebsiteParser websiteParser;
     private final UrlArchiveService urlArchiveService;
+    private final DiscordService discordService;
 
     public YgoScheduledTaskImpl(
-            @Autowired final YgoWebsiteParser websiteParser, @Autowired final UrlArchiveService urlArchiveService) {
+            @Autowired final YgoWebsiteParser websiteParser,
+            @Autowired final UrlArchiveService urlArchiveService,
+            @Autowired final DiscordService discordService) {
         super();
         this.websiteParser = websiteParser;
         this.urlArchiveService = urlArchiveService;
+        this.discordService = discordService;
     }
 
     /** See {@link YgoScheduledTask#checkBanlist()} */
@@ -47,7 +53,10 @@ public class YgoScheduledTaskImpl implements YgoScheduledTask {
                     .type(ArchiveTypeEnum.BANLIST)
                     .build());
             /* Get news discord channel by ID */
-            final TextChannel ygoNews = SayakaConfig.getSayaka().getTextChannelById(ChannelConstant.YGO_CHANNEL_NEWS);
+            final TextChannel ygoNews = SayakaConfig.getSayaka()
+                    .getTextChannelById(discordService.getChannelIdByServerAndChannelKey(
+                            SayakaManagedServerEnum.KITCHEN_TABLE_TCGS,
+                            KitchenTableTCGsChannelEnum.YU_GI_OH_NEWS.getChannelKey()));
             /* Send a message to the news channel */
             ygoNews.sendMessage(String.format(
                             MessageConstant.TWO_PARTS_MESSAGE_TEMPLATE,
