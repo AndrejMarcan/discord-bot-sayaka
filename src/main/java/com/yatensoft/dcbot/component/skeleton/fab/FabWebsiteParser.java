@@ -2,6 +2,8 @@
 package com.yatensoft.dcbot.component.skeleton.fab;
 
 import com.yatensoft.dcbot.dto.fab.FabArticleDTO;
+import com.yatensoft.dcbot.dto.fab.FabLivingLegendElementDTO;
+import com.yatensoft.dcbot.enumeration.fab.FabGameFormatEnum;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,4 +17,11 @@ public interface FabWebsiteParser {
      * @throws IOException if unable to parse website
      */
     List<FabArticleDTO> getLatestArticles() throws IOException;
+
+    /**
+     * Get Living Legend Leaderboard for given game format
+     * @return List of heros and their living legends progress data
+     * @throws IOException if unable to parse website
+     */
+    List<FabLivingLegendElementDTO> getLivingLegendLeaderboard(FabGameFormatEnum format) throws IOException;
 }
