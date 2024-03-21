@@ -1,9 +1,11 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.orchestrator.impl;
 
-import com.yatensoft.dcbot.constant.ChannelConstant;
 import com.yatensoft.dcbot.constant.MessageConstant;
+import com.yatensoft.dcbot.enumeration.KitchenTableTCGsChannelEnum;
+import com.yatensoft.dcbot.enumeration.SayakaManagedServerEnum;
 import com.yatensoft.dcbot.orchestrator.skeleton.MessageEventOrchestrator;
+import com.yatensoft.dcbot.service.skeleton.DiscordService;
 import com.yatensoft.dcbot.service.skeleton.MoviesAndSeriesChannelService;
 import com.yatensoft.dcbot.service.skeleton.MusicChannelService;
 import com.yatensoft.dcbot.util.BotUtils;
@@ -22,15 +24,18 @@ public class MessageEventOrchestratorImpl implements MessageEventOrchestrator {
     private final MessageCommandOrchestrator messageCommandOrchestrator;
     private final MoviesAndSeriesChannelService moviesAndSeriesChannelService;
     private final MusicChannelService musicChannelService;
+    private final DiscordService discordService;
 
     public MessageEventOrchestratorImpl(
             @Autowired final MessageCommandOrchestrator messageCommandOrchestrator,
             @Autowired final MoviesAndSeriesChannelService moviesAndSeriesChannelService,
-            @Autowired final MusicChannelService musicChannelService) {
+            @Autowired final MusicChannelService musicChannelService,
+            @Autowired final DiscordService discordService) {
         super();
         this.messageCommandOrchestrator = messageCommandOrchestrator;
         this.moviesAndSeriesChannelService = moviesAndSeriesChannelService;
         this.musicChannelService = musicChannelService;
+        this.discordService = discordService;
     }
 
     /** See {@link MessageEventOrchestrator#handleEvent(MessageReceivedEvent)} */
@@ -63,14 +68,18 @@ public class MessageEventOrchestratorImpl implements MessageEventOrchestrator {
 
     /** Validate if message event is from movies-and-series channel */
     private boolean isMessageFromMoviesAndSeriesChannel(final MessageReceivedEvent event) {
-        long eventChannelId = event.getChannel().getIdLong();
-        return ChannelConstant.MOVIES_AND_SERIES_CHANNEL == eventChannelId;
+        return discordService.getChannelIdByServerAndChannelKey(
+                        SayakaManagedServerEnum.KITCHEN_TABLE_TCGS,
+                        KitchenTableTCGsChannelEnum.ENTERTAINMENT_MOVIES_AND_SERIES.getChannelKey())
+                == event.getChannel().getIdLong();
     }
 
     /** Validate if message event is from music channel */
     private boolean isMessageFromMusicChannel(final MessageReceivedEvent event) {
-        long eventChannelId = event.getChannel().getIdLong();
-        return ChannelConstant.MUSIC_CHANNEL == eventChannelId;
+        return discordService.getChannelIdByServerAndChannelKey(
+                        SayakaManagedServerEnum.KITCHEN_TABLE_TCGS,
+                        KitchenTableTCGsChannelEnum.ENTERTAINMENT_MUSIC.getChannelKey())
+                == event.getChannel().getIdLong();
     }
 
     /** Validate if message event contains any command */

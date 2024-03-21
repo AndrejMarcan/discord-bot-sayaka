@@ -27,6 +27,10 @@ public class FabCommandOrchestrator implements CommandOrchestrator {
             fabCommandService.getLatestArticleURL(event);
             return;
         }
+        if (BotCommandConstant.FAB_COMMAND_GET_LIVING_LEGEND_DATA.equalsIgnoreCase(command)) {
+            fabCommandService.getLivingLegendData(event);
+            return;
+        }
 
         /* In case of unknown command send message to the channel where request came from */
         event.getChannel()

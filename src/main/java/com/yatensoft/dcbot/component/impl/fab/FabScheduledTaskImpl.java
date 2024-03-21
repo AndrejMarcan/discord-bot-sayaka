@@ -3,13 +3,15 @@ package com.yatensoft.dcbot.component.impl.fab;
 
 import com.yatensoft.dcbot.component.skeleton.fab.FabScheduledTask;
 import com.yatensoft.dcbot.component.skeleton.fab.FabWebsiteParser;
-import com.yatensoft.dcbot.config.DiscordBotConfig;
-import com.yatensoft.dcbot.constant.ChannelConstant;
+import com.yatensoft.dcbot.config.SayakaConfig;
 import com.yatensoft.dcbot.constant.MessageConstant;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
 import com.yatensoft.dcbot.dto.fab.FabArticleDTO;
 import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
+import com.yatensoft.dcbot.enumeration.KitchenTableTCGsChannelEnum;
+import com.yatensoft.dcbot.enumeration.SayakaManagedServerEnum;
 import com.yatensoft.dcbot.enumeration.TopicEnum;
+import com.yatensoft.dcbot.service.skeleton.DiscordService;
 import com.yatensoft.dcbot.service.skeleton.UrlArchiveService;
 import java.io.IOException;
 import java.util.Comparator;
@@ -27,19 +29,22 @@ import org.springframework.util.CollectionUtils;
 public class FabScheduledTaskImpl implements FabScheduledTask {
     private final FabWebsiteParser fabWebsiteParser;
     private final UrlArchiveService urlArchiveService;
+    private final DiscordService discordService;
 
     public FabScheduledTaskImpl(
-            @Autowired final FabWebsiteParser fabWebsiteParser, @Autowired final UrlArchiveService urlArchiveService) {
+            @Autowired final FabWebsiteParser fabWebsiteParser,
+            @Autowired final UrlArchiveService urlArchiveService,
+            @Autowired final DiscordService discordService) {
         super();
         this.fabWebsiteParser = fabWebsiteParser;
         this.urlArchiveService = urlArchiveService;
+        this.discordService = discordService;
     }
 
     /** See {@link FabScheduledTask#checkLatestArticles()} */
     @Override
     @Scheduled(cron = "0 0 */4 * * *")
     public void checkLatestArticles() throws IOException {
-        System.out.println("I AM IN");
         /* Get the latest articles */
         final List<FabArticleDTO> newLatestArticles = fabWebsiteParser.getLatestArticles().parallelStream()
                 .filter(article -> !urlArchiveService.checkIfUrlArchiveRecordExists(
@@ -51,8 +56,11 @@ public class FabScheduledTaskImpl implements FabScheduledTask {
             final List<UrlArchiveDTO> newUrls = getUrlArchiveRecordsToSave(newLatestArticles);
             /* Create new records in DB */
             urlArchiveService.storeUrlArchiveRecords(newUrls);
-            DiscordBotConfig.getBotJDA()
-                    .getTextChannelById(ChannelConstant.FAB_CHANNEL_NEWS)
+            /* Post message to news channel */
+            SayakaConfig.getSayaka()
+                    .getTextChannelById(discordService.getChannelIdByServerAndChannelKey(
+                            SayakaManagedServerEnum.KITCHEN_TABLE_TCGS,
+                            KitchenTableTCGsChannelEnum.FLESH_AND_BLOOD_NEWS.getChannelKey()))
                     .sendMessage(createMessage(newLatestArticles, newUrls.size()))
                     .queue();
         }

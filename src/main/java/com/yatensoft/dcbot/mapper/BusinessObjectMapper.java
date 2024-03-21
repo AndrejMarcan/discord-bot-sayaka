@@ -1,7 +1,12 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.mapper;
 
+import com.yatensoft.dcbot.dto.DiscordChannelDTO;
+import com.yatensoft.dcbot.dto.DiscordServerDTO;
 import com.yatensoft.dcbot.dto.UrlArchiveDTO;
+import com.yatensoft.dcbot.enumeration.DiscordChannelTypeEnum;
+import com.yatensoft.dcbot.persitence.model.DiscordChannel;
+import com.yatensoft.dcbot.persitence.model.DiscordServer;
 import com.yatensoft.dcbot.persitence.model.UrlArchive;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -27,8 +32,8 @@ public class BusinessObjectMapper {
 
         UrlArchive result = new UrlArchive();
 
-        result.setId(source.getId() == null ? null : source.getId());
-        result.setUrl(source.getUrl() == null ? null : source.getUrl());
+        result.setId(source.getId());
+        result.setUrl(source.getUrl());
         result.setTopic(source.getTopic() == null ? null : source.getTopic().getShortName());
         result.setType(source.getType() == null ? null : source.getType().getValue());
         result.setDateOfCreation(
@@ -49,5 +54,46 @@ public class BusinessObjectMapper {
         return sourceList.stream()
                 .map(element -> mapUrlArchiveDtoToUrlArchive(element))
                 .toList();
+    }
+
+    /**
+     * Map DiscordServer to DiscordServerDTO
+     * @param discordServer entity
+     * @return data transfer object
+     */
+    public DiscordServerDTO mapDiscordServerToDiscordServerDTO(final DiscordServer discordServer) {
+        if (discordServer == null) {
+            return null;
+        }
+
+        DiscordServerDTO discordServerDTO = new DiscordServerDTO();
+
+        discordServerDTO.setId(discordServer.getId());
+        discordServerDTO.setDiscordServerId(discordServer.getDiscordServerId());
+        discordServerDTO.setDiscordServerName(discordServer.getDiscordServerName());
+
+        return discordServerDTO;
+    }
+
+    /**
+     * Map DiscordChannel to DiscordChannelDTO
+     * @param discordChannel entity
+     * @return data transfer object
+     */
+    public DiscordChannelDTO mapDiscordChannelToDiscordChannelDTO(final DiscordChannel discordChannel) {
+        if (discordChannel == null) {
+            return null;
+        }
+
+        DiscordChannelDTO discordChannelDTO = new DiscordChannelDTO();
+
+        discordChannelDTO.setId(discordChannel.getId());
+        discordChannelDTO.setDiscordChannelId(discordChannel.getDiscordChannelId());
+        discordChannelDTO.setDiscordChannelName(discordChannel.getDiscordChannelName());
+        discordChannelDTO.setDiscordServerId(discordChannel.getDiscordServerId());
+        discordChannelDTO.setDiscordChannelType(
+                DiscordChannelTypeEnum.getDiscordChannelTypeFromString(discordChannel.getDiscordChannelType()));
+
+        return discordChannelDTO;
     }
 }

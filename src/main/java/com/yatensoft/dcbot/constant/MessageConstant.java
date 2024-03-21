@@ -26,6 +26,19 @@ public class MessageConstant {
     public static final String FAB_LATEST_ARTICLE_URL = "Sure. Here is the link to the latest Flesh And Blood article:";
     public static final String YGO_LATEST_BANLIST_URL = "Sure. Here is the link to the latest Yu-Gi-Oh! banlist:";
     public static final String POST_NEW_RECOMMENDATIONS_WITH_CREDITS = "New recommended content from: %s \n";
+    public static final String CODE_BLOCK_START = "```\n";
+    public static final String CODE_BLOCK_END = "```";
+    /** Living Legend Table */
+    public static final String LL_TABLE_ROW_TEMPLATE = "%-4s | %-35s | %-15s | %-15s\n";
+
+    public static final String LL_TABLE_RANK_HEADER = "Rank";
+    public static final String LL_TABLE_HERO_HEADER = "Hero";
+    public static final String LL_TABLE_SEASON_HEADER = "Season Points";
+    public static final String LL_TABLE_LIVING_LEGEND_HEADER = "Living Legend Points";
+    public static final String LL_TABLE_LINE =
+            "------------------------------------------------------------------------------------------\n";
+
+    public static final int DISCORD_MESSAGE_MAX_LENGTH_WITH_BUFFER_100 = 1900;
 
     public MessageConstant() {}
 }
