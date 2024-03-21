@@ -15,4 +15,11 @@ public interface FabCommandService {
      * @throws IOException
      */
     void getLatestArticleURL(MessageReceivedEvent event) throws IOException;
+
+    /**
+     * Get Living Legend data (leaderboards, points per hero...)
+     *
+     * @param event message event (may contain optional command parameters)
+     */
+    void getLivingLegendData(MessageReceivedEvent event) throws IOException;
 }
