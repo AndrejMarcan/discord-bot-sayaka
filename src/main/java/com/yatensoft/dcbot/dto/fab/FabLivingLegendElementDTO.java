@@ -4,8 +4,8 @@ package com.yatensoft.dcbot.dto.fab;
 public class FabLivingLegendElementDTO {
     private String rank;
     private String hero;
-    private int seasonPoints;
-    private int livingLegendPoints;
+    private Integer seasonPoints;
+    private Integer livingLegendPoints;
 
     public String getRank() {
         return rank;
