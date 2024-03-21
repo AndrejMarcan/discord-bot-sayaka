@@ -23,7 +23,7 @@ public class FabLivingLegendElementDTO {
         this.hero = hero;
     }
 
-    public int getSeasonPoints() {
+    public Integer getSeasonPoints() {
         return seasonPoints;
     }
 
@@ -31,7 +31,7 @@ public class FabLivingLegendElementDTO {
         this.seasonPoints = seasonPoints;
     }
 
-    public int getLivingLegendPoints() {
+    public Integer getLivingLegendPoints() {
         return livingLegendPoints;
     }
 

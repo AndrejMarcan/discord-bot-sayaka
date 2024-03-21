@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
@@ -57,40 +59,55 @@ public class FabWebsiteParserImpl implements FabWebsiteParser {
         }
     }
 
-    /** See {@link FabWebsiteParser#getLivingLegendLeaderboard(FabGameFormatEnum)}*/
+    /** See {@link FabWebsiteParser#getLivingLegendLeaderboards(FabGameFormatEnum)}*/
     @Override
-    public List<FabLivingLegendElementDTO> getLivingLegendLeaderboard(final FabGameFormatEnum format)
-            throws IOException {
-
-        /* Get document */
+    public Map<FabGameFormatEnum, List<FabLivingLegendElementDTO>> getLivingLegendLeaderboards(
+            final FabGameFormatEnum format) throws IOException {
+        /* Load page */
         final Document doc = Jsoup.connect(fabtcgLivingLegendUrl).get();
-
+        Map<FabGameFormatEnum, List<FabLivingLegendElementDTO>> leaderboards = new HashMap<>();
+        /* Load Living Legend leaderboards to map */
         switch (format) {
-            case CLASSIC_CONSTRUCTED -> {
-                List<FabLivingLegendElementDTO> classicConstructed = new ArrayList<>();
-                /* Collect living legend heroes */
-                classicConstructed.addAll(mapTableData(doc.select(WebsiteParserConstant.FABTCG_CC_LL_BOARD_SELECTOR)
-                        .first()));
-                /* Collect heroes not yet of living legend status */
-                classicConstructed.addAll(
-                        mapTableData(doc.select(WebsiteParserConstant.FABTCG_CC_LL_LEADERBOARD_SELECTOR)
-                                .first()));
-                return classicConstructed;
-            }
-            case BLITZ -> {
-                List<FabLivingLegendElementDTO> blitz = new ArrayList<>();
-                /* Collect living legend heroes */
-                blitz.addAll(mapTableData(doc.select(WebsiteParserConstant.FABTCG_BLITZ_LL_BOARD_SELECTOR)
-                        .first()));
-                /* Collect heroes not yet of living legend status */
-                blitz.addAll(mapTableData(doc.select(WebsiteParserConstant.FABTCG_BLITZ_LL_LEADERBOARD_SELECTOR)
-                        .first()));
-                return blitz;
-            }
+            case CLASSIC_CONSTRUCTED -> leaderboards.put(
+                    FabGameFormatEnum.CLASSIC_CONSTRUCTED,
+                    getLivingLegendLeaderboard(
+                            doc,
+                            WebsiteParserConstant.FABTCG_CC_LL_BOARD_SELECTOR,
+                            WebsiteParserConstant.FABTCG_CC_LL_LEADERBOARD_SELECTOR));
+            case BLITZ -> leaderboards.put(
+                    FabGameFormatEnum.BLITZ,
+                    getLivingLegendLeaderboard(
+                            doc,
+                            WebsiteParserConstant.FABTCG_BLITZ_LL_BOARD_SELECTOR,
+                            WebsiteParserConstant.FABTCG_BLITZ_LL_LEADERBOARD_SELECTOR));
             default -> {
-                return new ArrayList<>();
+                leaderboards.put(
+                        FabGameFormatEnum.CLASSIC_CONSTRUCTED,
+                        getLivingLegendLeaderboard(
+                                doc,
+                                WebsiteParserConstant.FABTCG_CC_LL_BOARD_SELECTOR,
+                                WebsiteParserConstant.FABTCG_CC_LL_LEADERBOARD_SELECTOR));
+                leaderboards.put(
+                        FabGameFormatEnum.BLITZ,
+                        getLivingLegendLeaderboard(
+                                doc,
+                                WebsiteParserConstant.FABTCG_BLITZ_LL_BOARD_SELECTOR,
+                                WebsiteParserConstant.FABTCG_BLITZ_LL_LEADERBOARD_SELECTOR));
             }
         }
+        /* Return */
+        return leaderboards;
+    }
+
+    /** Collect Living Legend Leaderboard data */
+    private List<FabLivingLegendElementDTO> getLivingLegendLeaderboard(
+            final Document doc, final String boardSelector, final String leaderboardSelector) {
+        List<FabLivingLegendElementDTO> results = new ArrayList<>();
+        /* Collect living legend heroes */
+        results.addAll(mapTableData(doc.select(boardSelector).first()));
+        /* Collect heroes not yet of living legend status */
+        results.addAll(mapTableData(doc.select(leaderboardSelector).first()));
+        return results;
     }
 
     /** Parse the HTML element to DTO */
