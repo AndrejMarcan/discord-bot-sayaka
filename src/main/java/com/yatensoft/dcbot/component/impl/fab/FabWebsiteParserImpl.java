@@ -35,6 +35,9 @@ public class FabWebsiteParserImpl implements FabWebsiteParser {
 
     private static final String DATE_STRING_TEMPLATE = "%s %s %s";
 
+    @Value("${fabtcg.url.base}")
+    private String fabtcgBaseUrl;
+
     @Value("${fabtcg.url.articles}")
     private String fabtcgArticlesUrl;
 
@@ -118,7 +121,7 @@ public class FabWebsiteParserImpl implements FabWebsiteParser {
         final Element dateElement = element.selectFirst(WebsiteParserConstant.FABTCG_DATE_ELEMENT_CSS_QUERY);
 
         if (linkElement != null) {
-            item.setUrl(linkElement.attr(WebsiteParserConstant.HREF));
+            item.setUrl(getFullUrlAddress(linkElement.attr(WebsiteParserConstant.HREF)));
         }
         if (titleElement != null) {
             item.setTitle(titleElement.text());
@@ -177,5 +180,18 @@ public class FabWebsiteParserImpl implements FabWebsiteParser {
             }
         }
         return elementDTOs;
+    }
+
+    /**
+     * Enrich the url path by base url in case of omitted base URL.
+     *
+     * @param url provided link
+     * @return full URL with base and path parts
+     */
+    private String getFullUrlAddress(final String url) {
+        if (StringUtil.isBlank(url)) {
+            return this.fabtcgBaseUrl;
+        }
+        return url.startsWith(this.fabtcgBaseUrl) ? url : this.fabtcgBaseUrl + url;
     }
 }
