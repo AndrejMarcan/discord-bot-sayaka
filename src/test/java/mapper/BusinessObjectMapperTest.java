@@ -3,11 +3,11 @@ package mapper;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.yatensoft.dcbot.dto.UrlArchiveDTO;
-import com.yatensoft.dcbot.enumeration.ArchiveTypeEnum;
-import com.yatensoft.dcbot.enumeration.TopicEnum;
-import com.yatensoft.dcbot.mapper.BusinessObjectMapper;
-import com.yatensoft.dcbot.persitence.model.UrlArchive;
+import com.yatensoft.dcbot.core.dto.UrlArchiveDTO;
+import com.yatensoft.dcbot.core.enumeration.ArchiveTypeEnum;
+import com.yatensoft.dcbot.core.enumeration.TopicEnum;
+import com.yatensoft.dcbot.core.mapper.BusinessObjectMapper;
+import com.yatensoft.dcbot.core.persitence.model.UrlArchive;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
