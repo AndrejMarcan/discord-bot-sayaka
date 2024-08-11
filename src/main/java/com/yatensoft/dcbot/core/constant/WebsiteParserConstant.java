@@ -5,7 +5,7 @@ public class WebsiteParserConstant {
     /** fabtcg.com -> Articles Page */
     public static final String FABTCG_PAGES_LIST_BLOCK_ID = "pagesListblock";
 
-    public static final String FABTCG_DATE_FORMAT = "dd MMM yyyy";
+    public static final String FABTCG_DATE_FORMAT = "MMM dd, yyyy";
     public static final String FABTCG_ITEM_LINK_CLASS = "item-link";
     public static final String FABTCG_URL_ELEMENT_CSS_QUERY = "a.item-link";
     public static final String FABTCG_TITLE_ELEMENT_CSS_QUERY = ".item-card div.item-card-inner h5";

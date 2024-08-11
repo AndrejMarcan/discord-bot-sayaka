@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
@@ -29,12 +27,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class FabWebsiteParserImpl implements FabWebsiteParser {
-    /** Common */
-    private static final String REGEX_FABTCG_DATE_EXTRACTION =
-            "\\b(\\d{1,2})(?:st|nd|rd|th)?\\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\\s+(\\d{4})\\b";
-
-    private static final String DATE_STRING_TEMPLATE = "%s %s %s";
-
     @Value("${fabtcg.url.base}")
     private String fabtcgBaseUrl;
 
@@ -129,29 +121,13 @@ public class FabWebsiteParserImpl implements FabWebsiteParser {
         if (dateElement != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat(WebsiteParserConstant.FABTCG_DATE_FORMAT);
             try {
-                item.setDate(dateFormat.parse(parseDateString(dateElement.text())));
+                item.setDate(dateFormat.parse(dateElement.text()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
 
         return item;
-    }
-
-    /** Extract date from string containing the date */
-    private String parseDateString(final String input) {
-        final Pattern pattern = Pattern.compile(REGEX_FABTCG_DATE_EXTRACTION);
-        final Matcher matcher = pattern.matcher(input);
-
-        if (matcher.find()) {
-            final int day = Integer.parseInt(matcher.group(1));
-            final String monthString = matcher.group(2);
-            final int year = Integer.parseInt(matcher.group(3));
-
-            return String.format(DATE_STRING_TEMPLATE, day, monthString, year);
-        } else {
-            return null;
-        }
     }
 
     /** Parse HTML Table element to FabLivingLegendElementDTO */
