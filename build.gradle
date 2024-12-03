@@ -30,8 +30,6 @@ dependencies {
 	implementation 'net.dv8tion:JDA:5.0.0-beta.20'
 	// Website parsing
 	implementation 'org.jsoup:jsoup:1.17.2'
-	// Apache OpenNLP
-	implementation "org.apache.opennlp:opennlp-tools:2.4.0"
 	//Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

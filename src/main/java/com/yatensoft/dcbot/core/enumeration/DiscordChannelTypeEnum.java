@@ -14,7 +14,7 @@ public enum DiscordChannelTypeEnum {
 
     public static DiscordChannelTypeEnum getDiscordChannelTypeFromString(final String discordChannelType) {
         for (DiscordChannelTypeEnum discordChannelTypeEnum : DiscordChannelTypeEnum.values()) {
-            if (discordChannelTypeEnum.getValue().equals(discordChannelType)) {
+            if (discordChannelTypeEnum.getValue().equalsIgnoreCase(discordChannelType)) {
                 return discordChannelTypeEnum;
             }
         }

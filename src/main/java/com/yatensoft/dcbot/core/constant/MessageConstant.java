@@ -28,6 +28,8 @@ public class MessageConstant {
     public static final String POST_NEW_RECOMMENDATIONS_WITH_CREDITS = "New recommended content from: %s \n";
     public static final String CODE_BLOCK_START = "```\n";
     public static final String CODE_BLOCK_END = "```";
+    public static final String NEW_CHANNEL_WAS_CREATED_WITH_NAME_TEMPLATE =
+            "New channel named: '%s' have been created.";
     /** Living Legend Table */
     public static final String LL_TABLE_ROW_TEMPLATE = "%-4s | %-35s | %-15s | %-15s\n";
 

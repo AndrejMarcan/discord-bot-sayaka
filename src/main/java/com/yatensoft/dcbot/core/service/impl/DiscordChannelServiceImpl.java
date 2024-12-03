@@ -40,6 +40,14 @@ public class DiscordChannelServiceImpl implements DiscordChannelService {
         return getMapOfDiscordChannels(discordChannels);
     }
 
+    /** See {@link DiscordChannelService#createNewDiscordChannel(DiscordChannelDTO)}*/
+    @Override
+    public String createNewDiscordChannel(final DiscordChannelDTO discordChannelDTO) {
+        return discordChannelRepository
+                .save(businessObjectMapper.mapDiscordChannelToDiscordChannelDTO(discordChannelDTO))
+                .getDiscordChannelName();
+    }
+
     /** Get map of discord channels from the list of discord channels */
     private Map<String, DiscordChannelDTO> getMapOfDiscordChannels(final List<DiscordChannel> discordChannels) {
         if (CollectionUtils.isEmpty(discordChannels)) {

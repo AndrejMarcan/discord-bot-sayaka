@@ -11,10 +11,18 @@ import org.springframework.cache.annotation.Cacheable;
 public interface DiscordChannelService {
     /**
      * Map of all discord channel data by discord server ID where key is in format
-     * DISCORD_CHANNEL_FOLDER_discord-channel-name
+     * {DISCORD-SERVER}_{DISCORD-CHANNEL-FOLDER}_{discord-channel-name}
      * @param discordServerId discord server id
      * @return map of keys and discord channel data
      */
     @Cacheable
     Map<String, DiscordChannelDTO> getDiscordChannelsByDiscordServerId(long discordServerId);
+
+    /**
+     * Create new discord channel record in DB
+     *
+     * @param discordChannelDTO discord server DTO
+     * @return name of new discord channel
+     */
+    String createNewDiscordChannel(final DiscordChannelDTO discordChannelDTO);
 }
