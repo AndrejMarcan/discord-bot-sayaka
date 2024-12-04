@@ -1,6 +1,7 @@
 /** By YamiY Yaten */
 package com.yatensoft.dcbot.core.config;
 
+import com.yatensoft.dcbot.core.listener.DiscordServerEventListener;
 import com.yatensoft.dcbot.core.listener.MessageEventListener;
 import com.yatensoft.dcbot.core.listener.OnReadyEventListener;
 import jakarta.annotation.PostConstruct;
@@ -21,23 +22,27 @@ public class SayakaConfig {
 
     private final MessageEventListener messageEventListener;
     private final OnReadyEventListener onReadyEventListener;
+    private final DiscordServerEventListener discordServerEventListener;
 
     private static JDA sayaka;
 
     SayakaConfig(
             @Autowired final MessageEventListener messageEventListener,
-            @Autowired final OnReadyEventListener onReadyEventListener) {
+            @Autowired final OnReadyEventListener onReadyEventListener,
+            @Autowired final DiscordServerEventListener discordServerEventListener) {
         super();
         this.messageEventListener = messageEventListener;
         this.onReadyEventListener = onReadyEventListener;
+        this.discordServerEventListener = discordServerEventListener;
     }
 
     /** JDA initialization. */
     @PostConstruct
     private void init() {
         this.sayaka = JDABuilder.createDefault(SAYAKA_BOT_TOKEN)
-                .addEventListeners(messageEventListener, onReadyEventListener)
+                .addEventListeners(messageEventListener, onReadyEventListener, discordServerEventListener)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                .setEventPassthrough(Boolean.TRUE)
                 .build();
     }
 
