@@ -11,7 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -21,6 +24,8 @@ import org.springframework.util.CollectionUtils;
  */
 @Service
 public class DiscordChannelServiceImpl implements DiscordChannelService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscordChannelServiceImpl.class);
+
     private final DiscordChannelRepository discordChannelRepository;
     private final BusinessObjectMapper businessObjectMapper;
 
@@ -43,9 +48,22 @@ public class DiscordChannelServiceImpl implements DiscordChannelService {
     /** See {@link DiscordChannelService#createNewDiscordChannel(DiscordChannelDTO)}*/
     @Override
     public String createNewDiscordChannel(final DiscordChannelDTO discordChannelDTO) {
-        return discordChannelRepository
-                .save(businessObjectMapper.mapDiscordChannelToDiscordChannelDTO(discordChannelDTO))
-                .getDiscordChannelName();
+        /* Store Discord Channel Data to the DB */
+        final DiscordChannel savedChannel = discordChannelRepository.save(
+                businessObjectMapper.mapDiscordChannelToDiscordChannelDTO(discordChannelDTO));
+        /* Evict cache for this Discord Server Channels */
+        evictDiscordChannelCacheByDiscordServerId(savedChannel.getDiscordServerId());
+        /* Return new Discord Channel name */
+        return savedChannel.getDiscordChannelName();
+    }
+
+    /** See {@link DiscordChannelService#deleteDiscordChannelByKey(String, long)} */
+    @Override
+    public void deleteDiscordChannelByKey(final String key, final long discordServerId) {
+        /* Delete discord channel data from DB */
+        discordChannelRepository.deleteById(key);
+        /* Evict cache for Discord Server Channels */
+        evictDiscordChannelCacheByDiscordServerId(discordServerId);
     }
 
     /** Get map of discord channels from the list of discord channels */
@@ -56,5 +74,15 @@ public class DiscordChannelServiceImpl implements DiscordChannelService {
         return discordChannels.stream()
                 .map(discordChannel -> businessObjectMapper.mapDiscordChannelToDiscordChannelDTO(discordChannel))
                 .collect(Collectors.toMap(discordChannel -> discordChannel.getId(), discordChannel -> discordChannel));
+    }
+
+    /**
+     * Evicts cache after discord channel records are modified
+     *
+     * @param discordServerId key
+     */
+    @CacheEvict(value = CacheConfig.DISCORD_CHANNEL_CACHE_NAME, key = "#discordServerId")
+    private void evictDiscordChannelCacheByDiscordServerId(final long discordServerId) {
+        LOGGER.info("Cache eviction for Discord Server: {}", discordServerId);
     }
 }

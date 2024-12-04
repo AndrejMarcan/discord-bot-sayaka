@@ -16,7 +16,7 @@ public interface DiscordChannelService {
      * @return map of keys and discord channel data
      */
     @Cacheable
-    Map<String, DiscordChannelDTO> getDiscordChannelsByDiscordServerId(long discordServerId);
+    Map<String, DiscordChannelDTO> getDiscordChannelsByDiscordServerId(final long discordServerId);
 
     /**
      * Create new discord channel record in DB
@@ -25,4 +25,14 @@ public interface DiscordChannelService {
      * @return name of new discord channel
      */
     String createNewDiscordChannel(final DiscordChannelDTO discordChannelDTO);
+
+    /**
+     * Delete discord channel record by key
+     *
+     * !!! This is HARD DELETE !!!
+     *
+     * @param key internal channel identifier
+     * @param discordServerId id of the discord server where the channel is removed
+     */
+    void deleteDiscordChannelByKey(final String key, final long discordServerId);
 }

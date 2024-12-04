@@ -39,11 +39,9 @@ public class DiscordServerEventListener extends ListenerAdapter {
         final TextChannel defaultChannel = server.getDefaultChannel().asTextChannel();
         /* Send typing */
         defaultChannel.sendTyping();
-
         /* Save new channel record to DB */
         final String newChannelName =
                 discordChannelService.createNewDiscordChannel(buildDiscordChannelDTO(server, channel, rawData));
-
         /* Send message to the default channel */
         defaultChannel
                 .sendMessage(String.format(MessageConstant.NEW_CHANNEL_WAS_CREATED_WITH_NAME_TEMPLATE, newChannelName))
@@ -53,21 +51,35 @@ public class DiscordServerEventListener extends ListenerAdapter {
     /** Handles events on channel deletion */
     @Override
     public void onChannelDelete(final ChannelDeleteEvent event) {
-        System.out.println(event.getChannel().getName());
+        final Guild server = event.getGuild();
+        final ChannelUnion channel = event.getChannel();
+        final DataObject rawData = event.getRawData();
+        final TextChannel defaultChannel = server.getDefaultChannel().asTextChannel();
+        /* Send typing */
+        defaultChannel.sendTyping();
+        /* Remove channel record from DB */
+        discordChannelService.deleteDiscordChannelByKey(
+                buildDiscordChannelKey(server, channel, rawData), server.getIdLong());
+        /* Send typing */
+        defaultChannel.sendTyping();
+        /* Send message to the default channel */
+        defaultChannel
+                .sendMessage(String.format(MessageConstant.CHANNEL_WAS_REMOVED_WITH_NAME_TEMPLATE, channel.getName()))
+                .queue();
     }
 
     /** Build DiscordChannelDTO */
     private DiscordChannelDTO buildDiscordChannelDTO(
             final Guild server, final ChannelUnion channel, final DataObject rawData) {
         final DiscordChannelDTO discordChannelDTO = new DiscordChannelDTO();
-
+        /* Set Data */
         discordChannelDTO.setId(buildDiscordChannelKey(server, channel, rawData));
         discordChannelDTO.setDiscordChannelName(channel.getName());
         discordChannelDTO.setDiscordChannelId(channel.getIdLong());
         discordChannelDTO.setDiscordChannelType(DiscordChannelTypeEnum.getDiscordChannelTypeFromString(
                 channel.getType().name()));
         discordChannelDTO.setDiscordServerId(server.getIdLong());
-
+        /* Return Data */
         return discordChannelDTO;
     }
 
