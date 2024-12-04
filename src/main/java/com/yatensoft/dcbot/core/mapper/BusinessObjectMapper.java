@@ -96,4 +96,26 @@ public class BusinessObjectMapper {
 
         return discordChannelDTO;
     }
+
+    /**
+     * Map DiscordChannelDTO to DiscordChannel
+     * @param discordChannelDTO DTO model
+     * @return entity model
+     */
+    public DiscordChannel mapDiscordChannelToDiscordChannelDTO(final DiscordChannelDTO discordChannelDTO) {
+        if (discordChannelDTO == null) {
+            return null;
+        }
+
+        DiscordChannel discordChannelEntity = new DiscordChannel();
+
+        discordChannelEntity.setId(discordChannelDTO.getId());
+        discordChannelEntity.setDiscordChannelId(discordChannelDTO.getDiscordChannelId());
+        discordChannelEntity.setDiscordChannelName(discordChannelDTO.getDiscordChannelName());
+        discordChannelEntity.setDiscordServerId(discordChannelDTO.getDiscordServerId());
+        discordChannelEntity.setDiscordChannelType(
+                discordChannelDTO.getDiscordChannelType().getValue());
+
+        return discordChannelEntity;
+    }
 }
