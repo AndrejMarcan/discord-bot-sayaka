@@ -9,7 +9,7 @@ group = 'com.yatensoft'
 version = '1.3.0'
 
 java {
-	sourceCompatibility = '17'
+	sourceCompatibility = '21'
 }
 
 repositories {
